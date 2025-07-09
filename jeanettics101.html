@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Jeanettics 101 - Your Style Foundation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Glacial+Indifference:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Root Variables */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --accent-color: #f39c12;
+            --text-color: #333;
+            --light-text: #666;
+            --background-color: #fff;
+            --light-bg: #f8f9fa;
+            --border-color: #e9ecef;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --header-height: 120px; /* Approximate height of main and secondary nav combined */
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Spartan', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--background-color);
+            overflow-x: hidden;
+            padding-top: var(--header-height); /* To prevent content from being hidden under fixed header */
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links li {
+            position: relative; /* For dropdown */
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary-color);
+            background: rgba(231, 76, 60, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .cart-count, .like-count {
+            background: var(--gradient-secondary);
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            animation: pulse 2s infinite;
+            display: inline-block; /* Ensure padding works */
+            min-width: 25px; /* Minimum width for single digits */
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Secondary Navigation */
+        .secondary-nav {
+            background: var(--primary-color);
+            padding: 0.8rem 2rem;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .secondary-nav .nav-links {
+            justify-content: center;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .secondary-nav .nav-links a {
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 5px;
+        }
+
+        .secondary-nav .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--accent-color);
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-family: 'Spartan', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .dropdown-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--accent-color);
+        }
+
+        .dropdown-menu {
+            list-style: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 10;
+            padding: 0.5rem 0;
+            margin-top: 10px; /* Space between button and menu */
+        }
+
+        .dropdown-menu.show-menu {
+            opacity: 1;
+            visibility: visible;
+            margin-top: 5px;
+        }
+
+        .dropdown-menu li a {
+            color: var(--text-color);
+            padding: 0.8rem 1.5rem;
+            display: block;
+            white-space: nowrap;
+            text-align: left;
+            border-radius: 0; /* Remove border-radius from individual links */
+        }
+
+        .dropdown-menu li a:hover {
+            background: var(--light-bg); /* Use light-bg for hover in dropdown */
+            color: var(--accent-color);
+        }
+
+        /* Jeanettics 101 Specific Styles */
+        .jeanettics101-main {
+            padding-top: 0; /* Adjust because header already pushes content down */
+        }
+
+        .j101-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1516762689617-e1cd827d0932?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem;
+            margin-bottom: 3rem;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .j101-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            animation: slideInUp 1s ease-out forwards;
+        }
+
+        .j101-hero p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            animation: slideInUp 1.2s ease-out forwards;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .j101-topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .j101-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            animation: cardPopIn 0.8s ease-out forwards;
+            opacity: 0; /* Start hidden for animation */
+        }
+
+        .j101-card:nth-child(1) { animation-delay: 0.1s; }
+        .j101-card:nth-child(2) { animation-delay: 0.2s; }
+        .j101-card:nth-child(3) { animation-delay: 0.3s; }
+        .j101-card:nth-child(4) { animation-delay: 0.4s; }
+        .j101-card:nth-child(5) { animation-delay: 0.5s; }
+
+
+        @keyframes cardPopIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .j101-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .j101-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .j101-content {
+            padding: 1.5rem;
+            flex-grow: 1; /* Allows content to take up remaining space */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .j101-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .j101-content p {
+            font-family: 'Spartan', sans-serif;
+            font-size: 1.05rem;
+            color: var(--text-color);
+            margin-bottom: 1.2rem;
+            flex-grow: 1; /* Pushes list to bottom if content varies */
+        }
+
+        .j101-content ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 1rem; /* Space above list */
+        }
+
+        .j101-content ul li {
+            font-family: 'Glacial Indifference', sans-serif;
+            font-size: 0.95rem;
+            color: var(--light-text);
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .j101-content ul li::before {
+            content: '✓'; /* Checkmark icon */
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .j101-hero h1 {
+                font-size: 3.5rem;
+            }
+            .j101-hero p {
+                font-size: 1.4rem;
+            }
+            .j101-topics-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 2rem;
+                padding: 0 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .j101-hero {
+                padding: 4rem 1.5rem;
+                margin-bottom: 2rem;
+            }
+            .j101-hero h1 {
+                font-size: 2.8rem;
+            }
+            .j101-hero p {
+                font-size: 1.2rem;
+            }
+            .j101-topics-grid {
+                grid-template-columns: 1fr; /* Stack cards on smaller screens */
+                padding: 0 1rem;
+            }
+            .j101-card {
+                margin: 0 auto;
+                max-width: 400px; /* Constrain width of stacked cards */
+            }
+            .j101-content h3 {
+                font-size: 1.8rem;
+            }
+            .j101-content p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .j101-hero {
+                padding: 3rem 1rem;
+            }
+            .j101-hero h1 {
+                font-size: 2.2rem;
+            }
+            .j101-hero p {
+                font-size: 0.95rem;
+            }
+            .j101-card img {
+                height: 180px;
+            }
+            .j101-content {
+                padding: 1rem;
+            }
+            .j101-content h3 {
+                font-size: 1.5rem;
+                margin-bottom: 0.8rem;
+            }
+            .j101-content p {
+                font-size: 0.9rem;
+            }
+            .j101-content ul li {
+                font-size: 0.85rem;
+                padding-left: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <h1 class="logo">Jeanettics</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart <span id="cart-count" class="cart-count">0</span></a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+
+        <div class="secondary-nav">
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <button id="shopToggle" class="dropdown-btn">Shop Now ▾</button>
+                    <ul class="dropdown-menu" id="shopMenu">
+                        <li><a href="tops.html">Tops</a></li>
+                        <li><a href="skirts.html">Skirts</a></li>
+                        <li><a href="dresses.html">Dresses</a></li>
+                        <li><a href="trousers.html">Trousers</a></li>
+                        <li><a href="bags.html">Bags</a></li>
+                        <li><a href="belts.html">Belts</a></li>
+                        <li><a href="shop.html#all-products">All Items</a></li>
+                    </ul>
+                </li>
+                <li><a href="favorites.html">Favorites <span id="like-count" class="like-count">0</span></a></li>
+                <li><a href="stylemagazine.html">Jeanettics Magazine</a></li>
+                <li><a href="jeanettics101.html" class="active">Jeanettics 101</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="jeanettics101-main content">
+        <section class="j101-hero">
+            <h1>Jeanettics 101: Your Style Foundation</h1>
+            <p>Dive into the basics of sustainable fashion, thrifting wisdom, and timeless styling principles to build a wardrobe that truly reflects you.</p>
+        </section>
+
+        <section class="j101-topics-grid">
+            <div class="j101-card">
+                <img src="https://images.unsplash.com/photo-1520023476495-2c815243b81d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Understanding Fabrics" onerror="this.onerror=null;this.src='https://placehold.co/600x400/F8F8F8/333?text=Fabric+Guide';" />
+                <div class="j101-content">
+                    <h3>Understanding Fabrics & Quality</h3>
+                    <p>Learn to differentiate between common fabrics like cotton, linen, silk, and synthetics. Discover how material composition impacts comfort, durability, and care, helping you make informed choices for your wardrobe.</p>
+                    <ul>
+                        <li>Natural vs. Synthetic Fibers</li>
+                        <li>Identifying Quality Stitching</li>
+                        <li>The Importance of Fabric Weight</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="j101-card">
+                <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Basic Styling Principles" onerror="this.onerror=null;this.src='https://placehold.co/600x400/F8F8F8/333?text=Styling+Basics';" />
+                <div class="j101-content">
+                    <h3>Basic Styling Principles</h3>
+                    <p>Master the fundamental rules of fashion that stand the test of time. From balancing proportions to understanding color palettes, these principles will elevate your everyday looks.</p>
+                    <ul>
+                        <li>Proportion and Silhouette</li>
+                        <li>Color Coordination & Contrast</li>
+                        <li>Accessorizing Smartly</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="j101-card">
+                <img src="https://images.unsplash.com/photo-1621609764049-cf6d3570225d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Caring for Thrifted Finds" onerror="this.onerror=null;this.src='https://placehold.co/600x400/F8F8F8/333?text=Thrift+Care';" />
+                <div class="j101-content">
+                    <h3>Caring for Your Thrifted Treasures</h3>
+                    <p>Give your pre-loved garments the care they deserve to ensure they last even longer. Learn best practices for cleaning, repairing, and storing your unique thrifted pieces.</p>
+                    <ul>
+                        <li>Initial Cleaning & Sanitization</li>
+                        <li>Minor Repairs & Alterations</li>
+                        <li>Proper Storage Techniques</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="j101-card">
+                <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Building a Versatile Wardrobe" onerror="this.onerror=null;this.src='https://placehold.co/600x400/F8F8F8/333?text=Versatile+Wardrobe';" />
+                <div class="j101-content">
+                    <h3>Building a Versatile Wardrobe</h3>
+                    <p>Discover how to create a flexible wardrobe that works for any occasion. Focus on foundational pieces that can be mixed and matched to maximize your styling options.</p>
+                    <ul>
+                        <li>Identifying Your Core Pieces</li>
+                        <li>The Power of Layering</li>
+                        <li>Transitioning Outfits Day-to-Night</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="j101-card">
+                <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Sustainable Fashion Basics" onerror="this.onerror=null;this.src='https://placehold.co/600x400/F8F8F8/333?text=Sustainable+Fashion';" />
+                <div class="j101-content">
+                    <h3>Sustainable Fashion: The Basics</h3>
+                    <p>Understand the importance of sustainable choices in fashion. Learn about the impact of fast fashion and how thrifting, repurposing, and conscious consumption contribute to a better planet.</p>
+                    <ul>
+                        <li>The Impact of Fast Fashion</li>
+                        <li>Benefits of Thrifting & Secondhand</li>
+                        <li>Reducing Your Fashion Footprint</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Jeanettics. All rights reserved. | Sustainable Fashion for a Better Tomorrow</p>
+    </footer>
+
+    <script src="Scripts/common.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to update cart count display (moved here for self-contained example)
+            function updateCartCountDisplay() {
+                const cartCount = JSON.parse(localStorage.getItem('cartItems') || '[]').length;
+                const cartCountElement = document.getElementById('cart-count');
+                if (cartCountElement) {
+                    cartCountElement.textContent = cartCount;
+                    cartCountElement.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        cartCountElement.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            }
+
+            // Function to update favorite count display (moved here for self-contained example)
+            function updateLikeCountDisplay() {
+                const likedItems = JSON.parse(localStorage.getItem('likedItems') || '[]').length;
+                const likeCountElement = document.getElementById('like-count');
+                if (likeCountElement) {
+                    likeCountElement.textContent = likedItems;
+                    likeCountElement.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        likeCountElement.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            }
+
+            // Initialize counts on page load
+            updateCartCountDisplay();
+            updateLikeCountDisplay();
+
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('header');
+                if (window.scrollY > 50) {
+                    header.style.background = 'rgba(255, 255, 255, 0.98)';
+                    header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.15)';
+                } else {
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                    header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                }
+            });
+
+            // Handle shop dropdown toggle
+            const toggleBtn = document.getElementById("shopToggle");
+            const menu = document.getElementById("shopMenu");
+
+            toggleBtn.addEventListener("click", function(e) {
+                e.stopPropagation(); // Prevent click from bubbling up
+                menu.classList.toggle("show-menu");
+            });
+
+            // Close the menu when clicking outside
+            document.addEventListener("click", function(e) {
+                if (!menu.contains(e.target) && !toggleBtn.contains(e.target)) {
+                    menu.classList.remove("show-menu");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

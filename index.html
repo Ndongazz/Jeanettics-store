@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeanettics: Sustainable Style</title>
+    <!-- Fixed: integrity attribute typo -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="Styles/style.css">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <h1 class="logo">Jeanettics</h1>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart <span id="cart-count" class="cart-count">0</span></a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+
+        <div class="secondary-nav">
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <!-- Added aria attributes for accessibility -->
+                    <button id="shopToggle" class="dropdown-btn" aria-haspopup="true" aria-expanded="false" aria-controls="shopMenu">Shop Now ▾</button>
+                    <ul class="dropdown-menu" id="shopMenu" role="menu" tabindex="-1">
+                        <li><a href="tops.html">Tops</a></li>
+                        <li><a href="skirts.html">Skirts</a></li>
+                        <li><a href="dresses.html">Dresses</a></li>
+                        <li><a href="trousers.html">Trousers</a></li>
+                        <li><a href="bags.html">Bags</a></li>
+                        <li><a href="belts.html">Belts</a></li>
+                        <li><a href="shop.html#all-products">All Items</a></li>
+                    </ul>
+                </li>
+                <li><a href="favorites.html">Favorites <span id="like-count" class="like-count">0</span></a></li>
+                <li><a href="stylemagazine.html">Jeanettics Magazine</a></li>
+                <li><a href="jeanettics101.html">Jeanettics 101</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-text">
+            <div class="hero-content">
+                <h2>Welcome to Jeanettics: Your Guide to Sustainable Style</h2>
+                <p>Discover our philosophy of conscious fashion and timeless pieces.</p>
+                <a href="shop.html" class="button primary-button">Shop The Collection</a>
+            </div>
+        </section>
+
+        <section class="info-section">
+            <h2>Jeanettics 101: Our Philosophy</h2>
+            <div class="info-content">
+                <p>At <strong>Jeanettics</strong>, we believe fashion should be both beautiful and responsible. Our mission is to redefine your wardrobe with <strong>curated thrifted and pre-loved items</strong>, offering unique pieces that tell a story while promoting sustainable practices.</p>
+                <p>We handpick every item, ensuring <strong>quality and style</strong> that stands the test of time. Beyond just selling clothes, we aim to educate our community on the <strong>positive impact of conscious consumption</strong>, encouraging a thoughtful approach to fashion that benefits both you and the planet.</p>
+                <p>Join us on a journey where style meets sustainability. Explore our collections and become a part of the Jeanettics movement towards a more circular and ethical fashion future.</p>
+            </div>
+        </section>
+
+        <section class="product-section">
+            <h2>New Arrivals</h2>
+            <div class="product-grid side-scroll-grid" id="new-arrivals-grid"></div>
+        </section>
+
+        <section class="product-section">
+            <h2>Our Looks</h2>
+            <div class="product-grid side-scroll-grid" id="our-looks-grid"></div>
+        </section>
+
+        <section class="product-section">
+            <h2>Items on Sale</h2>
+            <div class="product-grid side-scroll-grid" id="on-sale-grid"></div>
+        </section>
+
+        <section class="newsletter-section">
+            <h2>Subscribe to Our Newsletter</h2>
+            <p>Stay updated with our latest arrivals, exclusive offers, and sustainable style tips!</p>
+            <form class="newsletter-form" id="newsletter-form">
+                <input type="email" id="newsletter-email" placeholder="Enter your email address" required>
+                <button type="submit" id="subscribe-button">Subscribe</button>
+            </form>
+            <div id="loading-spinner" class="loading-spinner" style="display: none;"></div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h4>About Jeanettics</h4>
+                <p>Jeanettics is your go-to destination for unique and stylish jeans. We believe in quality, comfort, and timeless fashion that empowers you to express your true self.</p>
+            </div>
+            <div class="footer-section links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="jeanettics101.html">Jeanettics 101</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section connect">
+                <h4>Connect With Us</h4>
+                <ul class="social-links">
+                    <li><a href="mailto:wearejeanettics@gmail.com" target="_blank" aria-label="Email"><i class="fas fa-envelope"></i> Email</a></li>
+                    <li><a href="https://www.instagram.com/jean.ettics" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    <li><a href="https://www.tiktok.com/@jeanettics" target="_blank" aria-label="Tiktok"><i class="fab fa-tiktok"></i> TikTok</a></li>
+                    <li><a href="https://wa.me/+254758681752" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 Jeanettics. All rights reserved. | Sustainable Fashion for a Better Tomorrow
+        </div>
+    </footer>
+
+    <!-- Added ARIA and role attributes for modal accessibility -->
+    <div id="success-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-message" tabindex="-1">
+        <div class="modal-content">
+            <span class="close-button" tabindex="0" aria-label="Close">&times;</span>
+            <div class="modal-body">
+                <i class="fas fa-check-circle modal-icon"></i>
+                <h3 id="modal-title">Subscription Successful!</h3>
+                <p id="modal-message">Thank you for subscribing to our newsletter. You'll receive updates soon!</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase config (provided by environment)
+        const firebaseConfig = {
+            apiKey: "",
+            authDomain: "",
+            projectId: "",
+            storageBucket: "",
+            messagingSenderId: "",
+            appId: "",
+        };
+
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentUserId = null;
+
+        // Authenticate user
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUserId = user.uid;
+            } else {
+                try {
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                        currentUserId = auth.currentUser.uid;
+                    } else {
+                        await signInAnonymously(auth);
+                        currentUserId = auth.currentUser.uid;
+                    }
+                } catch (error) {
+                    console.error("Firebase authentication error:", error);
+                }
+            }
+        });
+
+        // Subscribe to newsletter
+        async function subscribeNewsletter(email) {
+            if (!currentUserId) {
+                showModal("Error!", "Could not subscribe. Please try again later.", false);
+                return;
+            }
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const subscribeButton = document.getElementById('subscribe-button');
+            loadingSpinner.style.display = 'block';
+            subscribeButton.disabled = true;
+
+            try {
+                const newsletterCollectionRef = collection(db, `artifacts/${appId}/public/data/newsletter_subscribers`);
+                await addDoc(newsletterCollectionRef, {
+                    email: email,
+                    subscribedAt: new Date(),
+                    userId: currentUserId
+                });
+
+                // Gemini API call
+                const prompt = `Generate a short, friendly, and encouraging email confirmation message for a newsletter subscription. The user's email is ${email}. Focus on sustainable style and exclusive updates from Jeanettics. Do not include salutations or sign-offs, just the body of the email.`;
+                const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+                const geminiApiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`;
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                let successMessage = "Thank you for subscribing to our newsletter! You'll receive updates soon.";
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    successMessage = result.candidates[0].content.parts[0].text;
+                }
+
+                showModal("Subscription Successful!", successMessage, true);
+                document.getElementById('newsletter-email').value = '';
+            } catch (error) {
+                showModal("Subscription Failed", "There was an error subscribing. Please try again.", false);
+            } finally {
+                loadingSpinner.style.display = 'none';
+                subscribeButton.disabled = false;
+            }
+        }
+
+        // Modal Functions (ARIA focus trap and accessibility improvements)
+        const successModal = document.getElementById('success-modal');
+        const closeButton = successModal.querySelector('.close-button');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalIcon = successModal.querySelector('.modal-icon');
+
+        function showModal(title, message, isSuccess) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modalIcon.className = isSuccess
+                ? 'fas fa-check-circle modal-icon success'
+                : 'fas fa-times-circle modal-icon error';
+            successModal.style.display = 'flex';
+            successModal.focus();
+        }
+
+        function closeModal() {
+            successModal.style.display = 'none';
+        }
+
+        closeButton.addEventListener('click', closeModal);
+        closeButton.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') closeModal();
+        });
+        window.addEventListener('click', (event) => {
+            if (event.target == successModal) {
+                closeModal();
+            }
+        });
+
+        // --- Main DOMContentLoaded ---
+        document.addEventListener("DOMContentLoaded", function() {
+            // Cart and Like count display
+            function updateCartCountDisplay() {
+                const cartCount = JSON.parse(localStorage.getItem('cartItems') || '[]').length;
+                const cartCountElement = document.getElementById('cart-count');
+                if (cartCountElement) {
+                    cartCountElement.textContent = cartCount;
+                    cartCountElement.style.transform = 'scale(1.2)';
+                    setTimeout(() => cartCountElement.style.transform = 'scale(1)', 200);
+                }
+            }
+            function updateLikeCountDisplay() {
+                const likedItems = JSON.parse(localStorage.getItem('likedItems') || '[]').length;
+                const likeCountElement = document.getElementById('like-count');
+                if (likeCountElement) {
+                    likeCountElement.textContent = likedItems;
+                    likeCountElement.style.transform = 'scale(1.2)';
+                    setTimeout(() => likeCountElement.style.transform = 'scale(1)', 200);
+                }
+            }
+            updateCartCountDisplay();
+            updateLikeCountDisplay();
+
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('header');
+                if (window.scrollY > 50) {
+                    header.style.background = 'rgba(255, 255, 255, 0.98)';
+                    header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.15)';
+                } else {
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                    header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                }
+            });
+
+            // Dropdown accessibility
+            const toggleBtn = document.getElementById("shopToggle");
+            const menu = document.getElementById("shopMenu");
+            toggleBtn.addEventListener("click", function(e) {
+                e.stopPropagation();
+                const expanded = menu.classList.toggle("show-menu");
+                toggleBtn.setAttribute('aria-expanded', expanded);
+                if (expanded) menu.focus();
+            });
+            document.addEventListener("click", function(e) {
+                if (!menu.contains(e.target) && !toggleBtn.contains(e.target)) {
+                    menu.classList.remove("show-menu");
+                    toggleBtn.setAttribute('aria-expanded', false);
+                }
+            });
+            // Keyboard navigation for dropdown
+            toggleBtn.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowDown') {
+                    menu.classList.add("show-menu");
+                    toggleBtn.setAttribute('aria-expanded', true);
+                    menu.focus();
+                }
+            });
+
+            // --- Product Data (mock, remove if using external source) ---
+            const allProductsData = {
+                "prod1": { id: "prod1", name: "Vintage Floral Dress", img: "https://images.unsplash.com/photo-1571933931652-32b0f44747a9?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 3500, originalPrice: null, isNewArrival: true, isLook: false, isOnSale: false, description: "A beautiful floral dress with a vintage cut, perfect for any occasion." },
+                "prod2": { id: "prod2", name: "Classic Denim Jacket", img: "https://images.unsplash.com/photo-1517228800557-ad6d71b78297?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB2MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 4800, originalPrice: null, isNewArrival: true, isLook: false, isOnSale: false, description: "Timeless denim jacket, a versatile addition to your wardrobe." },
+                "prod3": { id: "prod3", name: "Boho Maxi Skirt", img: "https://images.unsplash.com/photo-1549887552-cb41977717a0?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 2800, originalPrice: 3500, isNewArrival: false, isLook: false, isOnSale: true, description: "Flowy and comfortable maxi skirt with bohemian patterns." },
+                "prod4": { id: "prod4", name: "Leather Crossbody Bag", img: "https://images.unsplash.com/photo-1601614917126-ef85434cf93f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 6200, originalPrice: null, isNewArrival: false, isLook: true, isOnSale: false, description: "Elegant leather bag, perfect for everyday use." },
+                "prod5": { id: "prod5", name: "Striped Cotton Top", img: "https://images.unsplash.com/photo-1520023476495-2c815243b81d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB2MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 1800, originalPrice: null, isNewArrival: true, isLook: false, isOnSale: false, description: "Comfortable and stylish cotton top with classic stripes." },
+                "prod6": { id: "prod6", name: "High-Waisted Trousers", img: "https://images.unsplash.com/photo-1551028080-e908616140b9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB2MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 3200, originalPrice: 4000, isNewArrival: false, isLook: true, isOnSale: true, description: "Chic high-waisted trousers, versatile for work or casual outings." },
+                "prod7": { id: "prod7", name: "Elegant Evening Dress", img: "https://images.unsplash.com/photo-1587854692138-971c26b2b28c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB2MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 7500, originalPrice: null, isNewArrival: false, isLook: true, isOnSale: false, description: "A stunning dress for special occasions, made with luxurious fabric." },
+                "prod8": { id: "prod8", name: "Casual Denim Skirt", img: "https://images.unsplash.com/photo-1549487508-2e3d3b7f83f2?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB2MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 2500, originalPrice: null, isNewArrival: true, isLook: false, isOnSale: false, description: "A comfortable and stylish denim skirt, perfect for everyday wear." },
+                "prod9": { id: "prod9", name: "Woven Belt", img: "https://images.unsplash.com/photo-1594957421110-eb59b666a2e4?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB2MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 1200, originalPrice: 1500, isNewArrival: false, isLook: false, isOnSale: true, description: "A stylish woven belt to complete any outfit." }
+            };
+
+            // Add to Cart
+            function addToCart(productId) {
+                const product = allProductsData[productId];
+                if (!product) return;
+                let cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+                const existingItemIndex = cartItems.findIndex(item => item.id === product.id);
+                if (existingItemIndex > -1) {
+                    cartItems[existingItemIndex].quantity = (cartItems[existingItemIndex].quantity || 1) + 1;
+                } else {
+                    cartItems.push({ ...product, quantity: 1 });
+                }
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                showModal("Item Added!", `${product.name} has been added to your cart.`, true);
+                updateCartCountDisplay();
+            }
+
+            // Add to Favorites
+            function addToFavorites(productId) {
+                const product = allProductsData[productId];
+                if (!product) return;
+                let likedItems = JSON.parse(localStorage.getItem('likedItems') || '[]');
+                const existingItemIndex = likedItems.findIndex(item => item.id === product.id);
+                if (existingItemIndex === -1) {
+                    likedItems.push(product);
+                    localStorage.setItem('likedItems', JSON.stringify(likedItems));
+                    updateLikeCountDisplay();
+                    showModal("Added to Favorites!", `${product.name} has been added to your favorites!`, true);
+                } else {
+                    showModal("Already in Favorites", `${product.name} is already in your favorites!`, false);
+                }
+            }
+
+            // Product Card HTML
+            function createProductCard(product) {
+                let priceHtml = '';
+                if (product.originalPrice !== null && product.price < product.originalPrice) {
+                    const discount = ((product.originalPrice - product.price) / product.originalPrice) * 100;
+                    const discountDisplay = discount.toFixed(0);
+                    priceHtml = `
+                        <p class="original-price"><del>Ksh ${product.originalPrice.toLocaleString('en-KE')}</del></p>
+                        <p class="sale-price">Ksh ${product.price.toLocaleString('en-KE')} <span class="discount-percentage">-${discountDisplay}%</span></p>
+                    `;
+                } else {
+                    priceHtml = `<p>Ksh ${product.price.toLocaleString('en-KE')}</p>`;
+                }
+                return `
+                    <div class="product-card" data-product-id="${product.id}">
+                        <img src="${product.img}" alt="${product.name}" onerror="this.onerror=null;this.src='https://placehold.co/200x200/F8F8F8/333?text=Image+Missing';" />
+                        <h3>${product.name}</h3>
+                        ${priceHtml}
+                        <button class="like-btn" data-product-id="${product.id}" aria-label="Add to favorites">♥</button>
+                        <button class="cart-btn" data-product-id="${product.id}" aria-label="Add to cart">Add to Cart</button>
+                    </div>
+                `;
+            }
+
+            // Render products (performance: build HTML string then assign once)
+            function renderProducts(products, gridId) {
+                const grid = document.getElementById(gridId);
+                let html = "";
+                products.forEach(product => { html += createProductCard(product); });
+                grid.innerHTML = html;
+            }
+
+            const newArrivals = Object.values(allProductsData).filter(product => product.isNewArrival);
+            const ourLooks = Object.values(allProductsData).filter(product => product.isLook);
+            const onSaleItems = Object.values(allProductsData).filter(product => product.isOnSale);
+
+            renderProducts(newArrivals, 'new-arrivals-grid');
+            renderProducts(ourLooks, 'our-looks-grid');
+            renderProducts(onSaleItems, 'on-sale-grid');
+
+            // Event Delegation for Product Card Interactions
+            document.addEventListener('click', function(event) {
+                const target = event.target;
+                if (target.classList.contains('cart-btn')) {
+                    const productId = target.dataset.productId;
+                    addToCart(productId);
+                    event.stopPropagation();
+                } else if (target.classList.contains('like-btn')) {
+                    const productId = target.dataset.productId;
+                    addToFavorites(productId);
+                    event.stopPropagation();
+                } else {
+                    const productCard = target.closest('.product-card');
+                    if (productCard) {
+                        const productId = productCard.dataset.productId;
+                        if (productId) {
+                            window.location.href = `product.html?id=${productId}`;
+                        }
+                    }
+                }
+            });
+
+            // Newsletter Form Submission
+            const newsletterForm = document.getElementById('newsletter-form');
+            const newsletterEmailInput = document.getElementById('newsletter-email');
+            newsletterForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const email = newsletterEmailInput.value.trim();
+                if (email) {
+                    await subscribeNewsletter(email);
+                } else {
+                    showModal("Invalid Email", "Please enter a valid email address.", false);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

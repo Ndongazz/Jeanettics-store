@@ -1,0 +1,12 @@
+specVersion: "v1"
+serviceId: "jetics"
+location: "us-central1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "fdcdb"
+      cloudSql:
+        instanceId: "jetics-fdc"
+      # schemaValidation: "COMPATIBLE"
+connectorDirs: ["./connector"]

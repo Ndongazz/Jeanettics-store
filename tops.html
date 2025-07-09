@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Shop - Jeanettics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Glacial+Indifference:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --accent-color: #f39c12;
+            --text-color: #333;
+            --light-text: #666;
+            --background-color: #fff;
+            --light-bg: #f8f9fa;
+            --border-color: #e9ecef;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        body {
+            font-family: 'Spartan', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--background-color);
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary-color);
+            background: rgba(231, 76, 60, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .cart-count, .like-count {
+            background: var(--gradient-secondary);
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .secondary-nav {
+            background: var(--primary-color);
+            padding: 0.75rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .secondary-nav .nav-links {
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .secondary-nav .nav-links a {
+            color: white;
+            padding: 0.5rem 1rem;
+            font-weight: 400;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .secondary-nav .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-family: 'Spartan', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 20px;
+        }
+
+        .dropdown-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            top: 100%; /* Position below the button */
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 10px; /* Space between button and menu */
+            opacity: 0;
+            transform: translateX(-50%) translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+        }
+
+        .dropdown-menu a {
+            color: var(--text-color);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.2s ease;
+            border-radius: 0; /* Override nav-links a border-radius */
+        }
+
+        .dropdown-menu a:hover {
+            background-color: var(--light-bg);
+            color: var(--primary-color);
+        }
+
+        /* Main Content */
+        .shop-main {
+            margin-top: 150px; /* Adjust for fixed header and secondary nav */
+            padding: 2rem;
+            background: var(--light-bg);
+        }
+
+        .product-section {
+            max-width: 1200px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .section-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            justify-content: center;
+        }
+
+        .product-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .product-card-link:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            padding-bottom: 1.5rem;
+            height: 100%; /* Ensure cards are same height in a row */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card-link:hover img {
+            transform: scale(1.05);
+        }
+
+        .product-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            padding: 0 1rem;
+        }
+
+        .product-card p {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            padding: 0 1rem;
+        }
+
+        .product-card p del {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0 1rem;
+            margin-top: auto; /* Push actions to the bottom */
+        }
+
+        .cart-btn, .like-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-btn:hover {
+            background: var(--gradient-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .like-btn {
+            background: none;
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+            padding: 0.8rem 1rem;
+            font-size: 1.5rem;
+            line-height: 1;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .like-btn.liked {
+            background: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+
+        .like-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        .main-footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .secondary-nav .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
+
+            .shop-main {
+                margin-top: 180px; /* Adjust for collapsed header */
+                padding: 1rem;
+            }
+
+            .section-heading {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .product-card img {
+                height: 250px;
+            }
+
+            .product-card h3 {
+                font-size: 1.4rem;
+            }
+
+            .product-card p {
+                font-size: 1.1rem;
+            }
+
+            .dropdown-menu {
+                position: static; /* Make dropdown flow naturally */
+                transform: none;
+                margin-top: 0;
+                width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+
+        /* Highlight text styling */
+        .highlight {
+            background: linear-gradient(120deg, rgba(243, 156, 18, 0.3) 0%, rgba(243, 156, 18, 0.3) 100%);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav">
+            <h1 class="logo">Jeanettics</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+                <li><a href="cart.html">Cart <span id="cart-count" class="cart-count">0</span></a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li id="logout-list-item" class="hidden"><a href="#" id="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+
+        <div class="secondary-nav">
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <button id="shopToggle" class="dropdown-btn">Shop By Category ▾</button>
+                    <ul class="dropdown-menu" id="shopMenu">
+                        <li><a href="tops.html">Tops</a></li>
+                        <li><a href="skirts.html">Skirts</a></li>
+                        <li><a href="dresses.html">Dresses</a></li>
+                        <li><a href="trousers.html">Trousers</a></li>
+                        <li><a href="bags.html">Bags</a></li>
+                        <li><a href="belts.html">Belts</a></li>
+                        <li><a href="shop.html#all-products">All Items</a></li>
+                    </ul>
+                </li>
+                <li><a href="favorites.html">Favorites <span id="like-count" class="like-count">0</span></a></li>
+                <li><a href="stylemagazine.html">Jeanettics Magazine</a></li>
+                <li><a href="jeanettics101.html">Jeanettics 101</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="shop-main">
+        <section id="all-products" class="product-section">
+            <h2 class="section-heading fade-in">All Products</h2>
+            <div class="product-grid">
+                <a href="product-detail.html?id=prod001" class="product-card-link fade-in" data-id="prod001" data-name="Pink Ribbed Top" data-price="500" data-img="assets/images/top1.jpg">
+                    <div class="product-card">
+                        <img src="assets/images/top1.jpg" alt="Pink Ribbed Top" onerror="this.onerror=null;this.src='https://placehold.co/300x300/F8F8F8/333?text=Image+Not+Found';" />
+                        <h3>Pink Ribbed Top</h3>
+                        <p>Ksh 500</p>
+                        <div class="card-actions">
+                            <button class="like-btn" aria-label="Add to Favorites" data-id="prod001" data-name="Pink Ribbed Top" data-price="500" data-img="assets/images/top1.jpg">♥</button>
+                            <button class="cart-btn" data-id="prod001" data-name="Pink Ribbed Top" data-price="500" data-img="assets/images/top1.jpg">Add to Cart</button>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="product-detail.html?id=prod002" class="product-card-link fade-in" data-id="prod002" data-name="Brunch Babe Look" data-price="1200" data-img="assets/images/styled-look1.jpg">
+                    <div class="product-card">
+                        <img src="assets/images/styled-look1.jpg" alt="Brunch Babe Look" onerror="this.onerror=null;this.src='https://placehold.co/300x300/F8F8F8/333?text=Image+Not+Found';" />
+                        <h3>Brunch Babe Look</h3>
+                        <p>Ksh 1200</p>
+                        <div class="card-actions">
+                            <button class="like-btn" aria-label="Add to Favorites" data-id="prod002" data-name="Brunch Babe Look" data-price="1200" data-img="assets/images/styled-look1.jpg">♥</button>
+                            <button class="cart-btn" data-id="prod002" data-name="Brunch Babe Look" data-price="1200" data-img="assets/images/styled-look1.jpg">Add to Cart</button>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="product-detail.html?id=prod003" class="product-card-link fade-in" data-id="prod003" data-name="Sunset Skirt" data-price="600" data-original-price="900" data-img="assets/images/sale1.jpg">
+                    <div class="product-card">
+                        <img src="assets/images/sale1.jpg" alt="Sunset Skirt" onerror="this.onerror=null;this.src='https://placehold.co/300x300/F8F8F8/333?text=Image+Not+Found';" />
+                        <h3>Sunset Skirt</h3>
+                        <p><del>Ksh 900</del> <strong>Ksh 600</strong></p>
+                        <div class="card-actions">
+                            <button class="like-btn" aria-label="Add to Favorites" data-id="prod003" data-name="Sunset Skirt" data-price="600" data-img="assets/images/sale1.jpg">♥</button>
+                            <button class="cart-btn" data-id="prod003" data-name="Sunset Skirt" data-price="600" data-img="assets/images/sale1.jpg">Add to Cart</button>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="product-detail.html?id=prod004" class="product-card-link fade-in" data-id="prod004" data-name="Vintage Denim Jacket" data-price="1500" data-img="https://placehold.co/300x300/F8F8F8/333?text=Vintage+Denim">
+                    <div class="product-card">
+                        <img src="https://placehold.co/300x300/F8F8F8/333?text=Vintage+Denim" alt="Vintage Denim Jacket" onerror="this.onerror=null;this.src='https://placehold.co/300x300/F8F8F8/333?text=Image+Not+Found';" />
+                        <h3>Vintage Denim Jacket</h3>
+                        <p>Ksh 1500</p>
+                        <div class="card-actions">
+                            <button class="like-btn" aria-label="Add to Favorites" data-id="prod004" data-name="Vintage Denim Jacket" data-price="1500" data-img="https://placehold.co/300x300/F8F8F8/333?text=Vintage+Denim">♥</button>
+                            <button class="cart-btn" data-id="prod004" data-name="Vintage Denim Jacket" data-price="1500" data-img="https://placehold.co/300x300/F8F8F8/333?text=Vintage+Denim">Add to Cart</button>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="product-detail.html?id=prod005" class="product-card-link fade-in" data-id="prod005" data-name="Floral Midi Dress" data-price="1800" data-img="https://placehold.co/300x300/F8F8F8/333?text=Floral+Dress">
+                    <div class="product-card">
+                        <img src="https://placehold.co/300x300/F8F8F8/333?text=Floral+Dress" alt="Floral Midi Dress" onerror="this.onerror=null;this.src='https://placehold.co/300x300/F8F8F8/333?text=Image+Not+Found';" />
+                        <h3>Floral Midi Dress</h3>
+                        <p>Ksh 1800</p>
+                        <div class="card-actions">
+                            <button class="like-btn" aria-label="Add to Favorites" data-id="prod005" data-name="Floral Midi Dress" data-price="1800" data-img="https://placehold.co/300x300/F8F8F8/333?text=Floral+Dress">♥</button>
+                            <button class="cart-btn" data-id="prod005" data-name="Floral Midi Dress" data-price="1800" data-img="https://placehold.co/300x300/F8F8F8/333?text=Floral+Dress">Add to Cart</button>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="product-detail.html?id=prod006" class="product-card-link fade-in" data-id="prod006" data-name="Leather Crossbody Bag" data-price="2500" data-img="https://placehold.co/300x300/F8F8F8/333?text=Leather+Bag">
+                    <div class="product-card">
+                        <img src="https://placehold.co/300x300/F8F8F8/333?text=Leather+Bag" alt="Leather Crossbody Bag" onerror="this.onerror=null;this.src='https://placehold.co/300x300/F8F8F8/333?text=Image+Not+Found';" />
+                        <h3>Leather Crossbody Bag</h3>
+                        <p>Ksh 2500</p>
+                        <div class="card-actions">
+                            <button class="like-btn" aria-label="Add to Favorites" data-id="prod006" data-name="Leather Crossbody Bag" data-price="2500" data-img="https://placehold.co/300x300/F8F8F8/333?text=Leather+Bag">♥</button>
+                            <button class="cart-btn" data-id="prod006" data-name="Leather Crossbody Bag" data-price="2500" data-img="https://placehold.co/300x300/F8F8F8/333?text=Leather+Bag">Add to Cart</button>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="tops" class="product-section">
+            <h2 class="section-heading fade-in">Tops</h2>
+            <div class="product-grid">
+                <a href="product-detail.html?id=top001" class="product-card-link fade-in" data-id="top001" data-name="Silk Cami Top" data-price="750" data-img="https://placehold.co/300x300/F8F8F8/333?text=Silk+Cami">
+                    <div class="product-card">
+                        <img src="https://placehold.co/300x300/F8F8F8/333?text=Silk+Cami" alt="Silk Cami Top" onerror="this.onerror=null;this.src='https://placehold.co/300x300/F8F8F8/333?text=Image+Not+Found';" />
+                        <h3>Silk Cami Top</h3>
+                        <p>Ksh 750</p>
+                        <div class="card-actions">
+                            <button class="like-btn" aria-label="Add to Favorites" data-id="top001" data-name="Silk Cami Top" data-price="750" data-img="https://placehold.co/300x300/F8F8F8/333?text=Silk+Cami">♥</button>
+                            <button class="cart-btn" data-id="top001" data-name="Silk Cami Top" data-price="750" data-img="https://placehold.co/300x300/F8F8F8/333?text=Silk+Cami">Add to Cart</button>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Jeanettics. All rights reserved. | Sustainable Fashion for a Better Tomorrow</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to update cart count display
+            function updateCartCountDisplay() {
+                const cartCount = JSON.parse(localStorage.getItem('cartItems') || '[]').length;
+                const cartCountElement = document.getElementById('cart-count');
+                if (cartCountElement) {
+                    cartCountElement.textContent = cartCount;
+                    // Add animation when count changes
+                    cartCountElement.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        cartCountElement.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            }
+
+            // Function to update like count display
+            function updateLikeCountDisplay() {
+                const likeCount = JSON.parse(localStorage.getItem('likedItems') || '[]').length;
+                const likeCountElement = document.getElementById('like-count');
+                if (likeCountElement) {
+                    likeCountElement.textContent = likeCount;
+                    // Add animation when count changes
+                    likeCountElement.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        likeCountElement.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            }
+
+            // Update counts on page load
+            updateCartCountDisplay();
+            updateLikeCountDisplay();
+
+            // Logout related elements
+            const logoutListItem = document.getElementById('logout-list-item');
+            const logoutBtn = document.getElementById('logout-btn');
+
+            // Function to check login status and update UI
+            function checkLoginStatus() {
+                const token = localStorage.getItem('jwtToken');
+                if (token) {
+                    logoutListItem.classList.remove('hidden');
+                } else {
+                    logoutListItem.classList.add('hidden');
+                }
+            }
+
+            // Logout functionality
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('jwtToken');
+                sessionStorage.removeItem('currentUserName');
+                sessionStorage.removeItem('currentUserEmail');
+                localStorage.removeItem('personalDeliveryAddress');
+                localStorage.removeItem('pickupMtaaniAddress');
+                localStorage.removeItem('ecardState');
+                localStorage.removeItem('ecardOffersConfig');
+                localStorage.removeItem('jeanettics_active_ecard_discount');
+                checkLoginStatus(); // Update UI after logout
+                alert('You have been successfully logged out.');
+                window.location.href = 'index.html'; // Redirect to home page after logout
+            });
+
+            // Initial check of login status
+            checkLoginStatus();
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('.main-nav a[href^="."], .secondary-nav a[href^="."]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    // Only prevent default if it's an internal hash link
+                    if (this.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href').substring(1);
+                        const target = document.getElementById(targetId);
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                    // For external links (like shop.html, profile.html), let default behavior happen
+                });
+            });
+
+            // Scroll animations (Intersection Observer)
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    } else {
+                        // Optional: remove 'visible' class if you want elements to re-animate on scroll up
+                        // entry.target.classList.remove('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('.main-header');
+                if (window.scrollY > 50) {
+                    header.style.background = 'rgba(255, 255, 255, 0.98)';
+                    header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.15)';
+                } else {
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                    header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                }
+            });
+
+            // Dropdown functionality
+            const shopToggle = document.getElementById('shopToggle');
+            const shopMenu = document.getElementById('shopMenu');
+
+            shopToggle.addEventListener('click', function() {
+                shopMenu.classList.toggle('show');
+            });
+
+            // Close the dropdown if the user clicks outside of it
+            window.addEventListener('click', function(event) {
+                if (!event.target.matches('.dropdown-btn') && !event.target.closest('.dropdown-menu')) {
+                    if (shopMenu.classList.contains('show')) {
+                        shopMenu.classList.remove('show');
+                    }
+                }
+            });
+
+            // Cart and Like button logic
+            document.querySelectorAll('.cart-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault(); // Prevent navigating to product detail page
+                    e.stopPropagation(); // Stop event from bubbling to product-card-link
+
+                    const productId = this.dataset.id;
+                    const productName = this.dataset.name;
+                    const productPrice = parseFloat(this.dataset.price);
+                    const productImage = this.dataset.img;
+
+                    let cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+                    const existingItemIndex = cartItems.findIndex(item => item.id === productId);
+
+                    if (existingItemIndex > -1) {
+                        cartItems[existingItemIndex].quantity += 1;
+                        alert(`${productName} quantity updated in cart!`);
+                    } else {
+                        cartItems.push({ id: productId, name: productName, price: productPrice, img: productImage, quantity: 1 });
+                        alert(`${productName} added to cart!`);
+                    }
+                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                    updateCartCountDisplay();
+                });
+            });
+
+            document.querySelectorAll('.like-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault(); // Prevent navigating to product detail page
+                    e.stopPropagation(); // Stop event from bubbling to product-card-link
+
+                    const productId = this.dataset.id;
+                    const productName = this.dataset.name;
+                    const productPrice = parseFloat(this.dataset.price);
+                    const productImage = this.dataset.img;
+
+                    let likedItems = JSON.parse(localStorage.getItem('likedItems') || '[]');
+                    const existingItemIndex = likedItems.findIndex(item => item.id === productId);
+
+                    if (existingItemIndex > -1) {
+                        likedItems.splice(existingItemIndex, 1); // Remove if already liked
+                        this.classList.remove('liked');
+                        alert(`${productName} removed from favorites!`);
+                    } else {
+                        likedItems.push({ id: productId, name: productName, price: productPrice, img: productImage });
+                        this.classList.add('liked');
+                        alert(`${productName} added to favorites!`);
+                    }
+                    localStorage.setItem('likedItems', JSON.stringify(likedItems));
+                    updateLikeCountDisplay();
+                });
+            });
+
+            // Initialize like button states on load
+            function initializeLikeButtons() {
+                const likedItems = JSON.parse(localStorage.getItem('likedItems') || '[]');
+                document.querySelectorAll('.like-btn').forEach(button => {
+                    const productId = button.dataset.id;
+                    if (likedItems.some(item => item.id === productId)) {
+                        button.classList.add('liked');
+                    }
+                });
+            }
+            initializeLikeButtons();
+        });
+    </script>
+</body>
+</html>

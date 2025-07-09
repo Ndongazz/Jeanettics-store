@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Thank You - Jeanettics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Glacial+Indifference:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* General Body and Container Styles */
+        body {
+            font-family: 'Glacial Indifference', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f4f2; /* Light cream background */
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            color: #5d4037; /* Darker earthy tone */
+            margin: 0;
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5d4037;
+            font-weight: 500;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #a1887f; /* Lighter earthy tone on hover */
+        }
+
+        .cart-count {
+            background-color: #a1887f;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+
+        /* Thank You Page Specific Styles */
+        .thankyou-main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 150px); /* Adjust based on header/footer height */
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .thankyou-section {
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 700px;
+            box-sizing: border-box;
+        }
+
+        .section-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            color: #5d4037;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .thankyou-subheading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5em;
+            color: #6d4c41;
+            margin-bottom: 30px;
+        }
+
+        .order-summary {
+            background-color: #fcfafa;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .order-summary h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6em;
+            color: #5d4037;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .order-summary p {
+            margin-bottom: 10px;
+            font-size: 1.05em;
+            color: #444;
+        }
+
+        .order-summary p strong {
+            color: #5d4037;
+        }
+
+        .confirmation-message {
+            font-style: italic;
+            color: #555;
+            margin-top: 20px;
+            border-top: 1px dashed #ddd;
+            padding-top: 20px;
+        }
+
+        .confirmation-message strong {
+            color: #8d6e63;
+        }
+
+        .thankyou-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 14px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-family: 'Spartan', sans-serif;
+            transition: background-color 0.3s ease, transform 0.2s ease, border-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap; /* Prevent buttons from wrapping text */
+        }
+
+        .btn-primary {
+            background-color: #8d6e63; /* Earthy brown */
+            color: white;
+            border: 1px solid #8d6e63;
+        }
+
+        .btn-primary:hover {
+            background-color: #6d4c41; /* Darker brown on hover */
+            border-color: #6d4c41;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #8d6e63;
+            border: 1px solid #8d6e63;
+        }
+
+        .btn-secondary:hover {
+            background-color: #8d6e63;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Footer Styles */
+        .main-footer {
+            background-color: #5d4037; /* Dark earthy tone */
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: auto; /* Pushes footer to the bottom */
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.95em;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .main-nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .thankyou-section {
+                padding: 40px 25px;
+            }
+
+            .section-heading {
+                font-size: 2.2em;
+            }
+
+            .thankyou-subheading {
+                font-size: 1.2em;
+            }
+
+            .order-summary h3 {
+                font-size: 1.4em;
+            }
+
+            .thankyou-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 80%; /* Make buttons wider on smaller screens */
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.8em;
+            }
+
+            .nav-links a {
+                font-size: 1em;
+            }
+
+            .thankyou-section {
+                padding: 30px 15px;
+            }
+
+            .section-heading {
+                font-size: 1.8em;
+            }
+
+            .thankyou-subheading {
+                font-size: 1em;
+            }
+
+            .order-summary h3 {
+                font-size: 1.2em;
+            }
+
+            .order-summary p {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav">
+            <h1 class="logo">Jeanettics</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart <span id="cart-count" class="cart-count">0</span></a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="thankyou-main">
+        <section class="thankyou-section content">
+            <h2 class="section-heading">Thank You for Your Order!</h2>
+            <p class="thankyou-subheading">Your purchase is confirmed. Get ready to experience Jeanettics!</p>
+
+            <div class="order-summary">
+                <h3>Order Details at a Glance:</h3>
+                <p id="user-info"></p>
+                <p class="confirmation-message">We’ve received your order and are preparing it for shipment. A detailed confirmation email with tracking information will be sent to <strong><span id="confirmation-email">your email address</span></strong> shortly.</p>
+            </div>
+
+            <div class="thankyou-actions">
+                <a href="index.html" class="btn-primary">Continue Shopping</a>
+                <a href="profile.html" class="btn-secondary">View Order History</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Jeanettics. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const checkoutData = JSON.parse(localStorage.getItem("checkoutData"));
+        const userInfoContainer = document.getElementById("user-info");
+        const confirmationEmailSpan = document.getElementById("confirmation-email");
+        const cartCountElement = document.getElementById('cart-count');
+
+        // Update cart count to 0 as order is placed
+        if (cartCountElement) {
+            cartCountElement.textContent = '0';
+        }
+
+        if (checkoutData) {
+            userInfoContainer.innerHTML = `
+                <p><strong>Order Total:</strong> Ksh ${checkoutData.total.toLocaleString('en-KE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
+                <p><strong>Shipping To:</strong> ${checkoutData.address}</p>
+                <p><strong>Payment Method:</strong> ${checkoutData.paymentMethod.replace('mpesa', 'M-Pesa').replace('card', 'Visa/MasterCard').replace('applepay', 'Apple Pay')}</p>
+            `;
+            confirmationEmailSpan.textContent = checkoutData.email;
+
+            // Optional: Clear checkoutData from localStorage after displaying
+            localStorage.removeItem("checkoutData");
+        } else {
+            userInfoContainer.innerHTML = "<p><em>No order details found. Please return to the <a href='shop.html'>shop</a> or <a href='cart.html'>cart</a>.</em></p>";
+            confirmationEmailSpan.textContent = "your registered email address";
+        }
+    </script>
+    <script src="Scripts/productsData.js"></script>
+    <script src="Scripts/common.js"></script>
+</body>
+</html>

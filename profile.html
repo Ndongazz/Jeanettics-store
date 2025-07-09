@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>My Profile - Jeanettics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Glacial+Indifference:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Updated Root Variables for consistency with about.html */
+        :root {
+            --primary-color: #2c3e50; /* Dark blue/grey */
+            --secondary-color: #e74c3c; /* Reddish orange */
+            --accent-color: #f39c12; /* Orange/Yellow */
+            --text-color: #333;
+            --light-text: #666;
+            --background-color: #fff;
+            --light-bg: #f8f9fa;
+            --border-color: #e9ecef;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Blue-purple gradient */
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); /* Pink-red gradient */
+            --success-color: #22c55e;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b; /* Consistent with accent, adjust if needed */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Spartan', sans-serif; /* Changed to Spartan */
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--light-bg); /* Lighter background */
+            min-height: 100vh;
+        }
+
+        /* Header Styles - Consistent with about.html */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky; /* Changed from fixed to sticky for profile page layout */
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; /* Consistent size */
+            font-weight: 700;
+            background: var(--gradient-primary); /* Gradient text */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px; /* Pill shape */
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary-color);
+            background: rgba(231, 76, 60, 0.1); /* Light background on hover/active */
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            background: var(--gradient-secondary);
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            animation: pulse 2s infinite; /* Keep pulse animation */
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Main Content */
+        .profile-main {
+            max-width: 1200px;
+            margin: 2rem auto; /* Adjusted margin */
+            padding: 2rem;
+            min-height: calc(100vh - 200px);
+            background: var(--background-color); /* White background for main content */
+            border-radius: 16px;
+            box-shadow: var(--shadow); /* Soft shadow */
+        }
+
+        /* Unauthenticated Profile */
+        .unauthenticated-profile-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--light-bg); /* Changed background */
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg); /* Larger shadow for prominence */
+            margin-bottom: 2rem;
+        }
+
+        .section-heading {
+            font-family: 'Playfair Display', serif; /* Consistent font */
+            font-size: 2.8rem; /* Slightly smaller for internal sections */
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+        }
+
+        .profile-intro {
+            font-size: 1.1rem;
+            color: var(--light-text);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 0.85rem 2.2rem; /* Slightly larger padding */
+            border: none;
+            border-radius: 50px; /* Pill shape buttons */
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary); /* Gradient background */
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); /* Inverted gradient on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .forgot-password-link {
+            margin-top: 1rem;
+        }
+
+        .forgot-password-link a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password-link a:hover {
+            text-decoration: underline;
+        }
+
+        .profile-illustration {
+            margin-top: 3rem;
+        }
+
+        .profile-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Authenticated Profile */
+        .profile-header-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed var(--border-color); /* Subtle divider */
+        }
+
+        .section-subheading {
+            font-size: 1.1rem;
+            color: var(--light-text);
+            margin-top: 0.5rem;
+        }
+
+        .profile-info-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .profile-card {
+            background: var(--light-bg); /* Lighter background for cards */
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05); /* Inner shadow for depth */
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .profile-card h3 {
+            font-family: 'Cormorant Garamond', serif; /* Consistent font */
+            font-size: 1.8rem; /* Slightly larger heading */
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color); /* Thicker underline */
+            padding-bottom: 0.5rem;
+            display: inline-block; /* To make border-bottom only as wide as text */
+        }
+
+        .profile-card p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+
+        .profile-card p:last-child {
+            margin-bottom: 0; /* Ensure no extra margin on last paragraph */
+        }
+
+        .profile-card strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* E-Card Styles */
+        .ecard-card {
+            grid-column: 1 / -1;
+            margin-bottom: 2rem;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0); /* Subtle gradient for e-card */
+        }
+
+        .ecard-description {
+            font-size: 1.1rem;
+            color: var(--light-text);
+            margin-bottom: 2rem;
+        }
+
+        .ecard-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .ecard-space {
+            aspect-ratio: 1;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            overflow: hidden; /* For pseudo-elements */
+        }
+
+        .ecard-space.empty {
+            background: var(--light-bg);
+            color: var(--light-text);
+            border-style: dashed;
+        }
+
+        .ecard-space.filled {
+            background: var(--gradient-primary); /* Use primary gradient for filled */
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow);
+            animation: popIn 0.3s ease-out; /* Pop in animation for filled stamps */
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .ecard-space.offer {
+            border-color: var(--accent-color); /* Highlight offer border */
+        }
+
+        .ecard-space.offer.filled {
+            background: var(--gradient-secondary); /* Use secondary gradient for revealed offers */
+            color: white;
+            animation: pulse 1.5s infinite; /* Keep pulse for revealed offers */
+        }
+
+        /* Form Styles */
+        .auth-form {
+            background: white; /* Changed to white */
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            border: 1px solid var(--border-color);
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.03); /* Subtle inner shadow */
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            font-family: 'Spartan', sans-serif; /* Consistent font for inputs */
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.2); /* Accent glow on focus */
+        }
+
+        .auth-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px; /* Pill shape */
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .primary-btn {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-cancel {
+            background: #6b7280;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-cancel:hover {
+            background: #4b5563;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .small-btn {
+            padding: 0.6rem 1.2rem; /* Slightly adjusted for small */
+            font-size: 0.9rem;
+        }
+
+        /* Message Styles */
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInMessage 0.5s ease forwards;
+        }
+
+        @keyframes fadeInMessage {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .message.error {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        /* Order Items */
+        .order-item {
+            background: white; /* Changed to white */
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 5px solid var(--accent-color); /* Thicker accent border */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .order-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-item p {
+            margin-bottom: 0.5rem;
+        }
+
+        .order-item p:last-child {
+            margin-bottom: 0;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        /* Footer */
+        .main-footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-nav {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
+
+            .profile-main {
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+
+            .profile-info-section {
+                grid-template-columns: 1fr;
+            }
+
+            .ecard-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .profile-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section-heading {
+                font-size: 2rem;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 80%; /* Make buttons wider on small screens */
+                max-width: 300px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav">
+            <h1 class="logo">Jeanettics</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart <span id="cart-count" class="cart-count">0</span></a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="profile.html" class="active">Profile</a></li>
+                <li id="logout-list-item" class="hidden"><a href="#" id="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="profile-main">
+        <div id="unauthenticated-profile-content" class="unauthenticated-profile-section content">
+            <h2 class="section-heading">Your Jeanettics Account</h2>
+            <p class="profile-intro">Unlock exclusive features and manage your orders by logging in or creating an account.</p>
+
+            <div class="profile-actions">
+                <a href="login.html" class="btn-primary">Login</a>
+                <a href="signup.html" class="btn-secondary">Sign Up</a>
+            </div>
+            <p class="forgot-password-link"><a href="forgot-password.html">Forgot Password?</a></p>
+
+            <div class="profile-illustration">
+                <img src="https://placehold.co/600x400/2c3e50/ffffff?text=Luxurious+Profile+Experience" alt="Fashion illustration" class="profile-img"/>
+            </div>
+        </div>
+
+        <div id="authenticated-profile-content" class="hidden">
+            <section class="profile-header-section">
+                <h2 class="section-heading">Welcome, <span id="profile-user-name">User</span>!</h2>
+                <p class="section-subheading">Manage your account details and view your activities.</p>
+            </section>
+
+            <section class="profile-info-section">
+                <div class="profile-card">
+                    <h3>Account Details</h3>
+                    <p><strong>Delivery Address:</strong> <span id="profile-delivery-address">Not set</span></p>
+                    <button class="btn-secondary" id="edit-address-btn">Set/Edit Home Address</button>
+                    <form id="address-form" class="hidden auth-form">
+                        <h4>Set Your Home Delivery Address</h4>
+                        <div class="form-group">
+                            <label for="street">Street Address:</label>
+                            <input type="text" id="street" placeholder="123 Main St" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City:</label>
+                            <input type="text" id="city" placeholder="Nairobi" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="zip">Postal Code:</label>
+                            <input type="text" id="zip" placeholder="00100" required>
+                        </div>
+                        <button type="submit" class="auth-btn primary-btn small-btn">Save Address</button>
+                        <button type="button" class="btn-cancel small-btn">Cancel</button>
+                        <div id="address-message" class="message"></div>
+                    </form>
+                </div>
+
+                <div class="profile-card">
+                    <h3>Past Orders</h3>
+                    <div id="past-orders-list">
+                        <p>No past orders found.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="profile-ecard-section">
+                <div class="profile-card ecard-card">
+                    <h3>Your Jeanettics E-Card</h3>
+                    <p class="ecard-description">Collect stamps to unlock special discounts!</p>
+                    <div class="ecard-grid" id="ecard-grid">
+                    </div>
+                    <button class="btn-primary" id="simulate-purchase-btn">Simulate Purchase (Stamp Card)</button>
+                    <button class="btn-secondary hidden" id="unlock-new-card-btn">Unlock New Card</button>
+                </div>
+            </section>
+
+            <section class="profile-reviews-section">
+                <div class="profile-card">
+                    <h3>Leave a Review</h3>
+                    <p>Tell us what you think about your recent purchases!</p>
+                    <form id="review-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="item-select">Select Item:</label>
+                            <select id="item-select">
+                                <option value="">-- Select a purchased item --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="rating">Rating:</label>
+                            <input type="number" id="rating" min="1" max="5" placeholder="1-5 stars" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="review-text">Your Review:</label>
+                            <textarea id="review-text" rows="5" placeholder="Write your honest review here..." required></textarea>
+                        </div>
+                        <button type="submit" class="auth-btn primary-btn">Submit Review</button>
+                        <div id="review-message" class="message"></div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Jeanettics. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Cart count display (would come from common.js)
+            function updateCartCountDisplay() {
+                const cartCount = JSON.parse(localStorage.getItem('cartItems') || '[]').length;
+                document.getElementById('cart-count').textContent = cartCount;
+            }
+            updateCartCountDisplay();
+
+            const unauthenticatedContent = document.getElementById('unauthenticated-profile-content');
+            const authenticatedContent = document.getElementById('authenticated-profile-content');
+            const logoutListItem = document.getElementById('logout-list-item');
+            const logoutBtn = document.getElementById('logout-btn');
+
+            // Elements for authenticated profile
+            const userNameElement = document.getElementById('profile-user-name');
+            // userEmailElement is no longer needed since the email display is removed
+            const deliveryAddressElement = document.getElementById('profile-delivery-address');
+            const pastOrdersList = document.getElementById('past-orders-list');
+            const ecardGrid = document.getElementById('ecard-grid');
+            const simulatePurchaseBtn = document.getElementById('simulate-purchase-btn');
+            const unlockNewCardBtn = document.getElementById('unlock-new-card-btn');
+
+            const addressForm = document.getElementById('address-form');
+            const editAddressBtn = document.getElementById('edit-address-btn');
+            const cancelAddressBtn = addressForm.querySelector('.btn-cancel');
+            const addressMessage = document.getElementById('address-message');
+
+            const reviewForm = document.getElementById('review-form');
+            const itemSelect = document.getElementById('item-select');
+            const reviewMessage = document.getElementById('review-message');
+
+            // E-Card Logic
+            const EcardRandomOptions = [
+                "20% discount on any item except items on sale",
+                "50% off on any item except items on sale",
+                "Free delivery for items bought",
+                "Buy 1 item and get 1 item on sale for free",
+                "KSH 1000 off your next purchase", // Added more options for variety
+                "Exclusive early access to new collections",
+                "Free Jeanettics branded tote bag",
+                "Double loyalty points on next purchase"
+            ];
+            const NumberOfOffersOnCard = 4; // Number of unique offers to place on each card
+            const TotalEcardSpaces = 10;
+
+            let ecardState = JSON.parse(localStorage.getItem('ecardState')) || null;
+            let ecardOffersConfig = JSON.parse(localStorage.getItem('ecardOffersConfig')) || null;
+
+            function initializeNewEcard() {
+                ecardState = Array(TotalEcardSpaces).fill(false);
+                ecardOffersConfig = Array(TotalEcardSpaces).fill(null);
+
+                // Shuffle EcardRandomOptions and pick NumberOfOffersOnCard unique offers
+                const shuffledOffers = [...EcardRandomOptions].sort(() => 0.5 - Math.random());
+                const chosenOffers = shuffledOffers.slice(0, NumberOfOffersOnCard);
+
+                // Determine random positions for these offers
+                const availableIndices = Array.from({ length: TotalEcardSpaces }, (_, i) => i);
+                const shuffledIndices = availableIndices.sort(() => 0.5 - Math.random());
+                const offerSpots = shuffledIndices.slice(0, chosenOffers.length);
+
+                offerSpots.forEach((index, i) => {
+                    ecardOffersConfig[index] = chosenOffers[i];
+                });
+
+                localStorage.setItem('ecardState', JSON.stringify(ecardState));
+                localStorage.setItem('ecardOffersConfig', JSON.stringify(ecardOffersConfig));
+            }
+
+            function renderEcard() {
+                if (!ecardState || !ecardOffersConfig) {
+                    initializeNewEcard();
+                }
+
+                ecardGrid.innerHTML = '';
+                let stampedCount = 0;
+
+                ecardState.forEach((isStamped, index) => {
+                    const space = document.createElement('div');
+                    space.className = 'ecard-space';
+                    const offer = ecardOffersConfig[index];
+
+                    if (isStamped) {
+                        space.classList.add('filled');
+                        stampedCount++;
+                        if (offer) {
+                            space.classList.add('offer');
+                            space.classList.add('revealed');
+                            space.textContent = offer;
+                        } else {
+                            space.innerHTML = '⭐';
+                        }
+                    } else {
+                        if (offer) {
+                            space.classList.add('offer');
+                            space.textContent = '🎁'; // Placeholder for hidden offer
+                        } else {
+                            space.classList.add('empty');
+                            space.textContent = '○'; // Placeholder for empty stamp
+                        }
+                    }
+                    ecardGrid.appendChild(space);
+                });
+
+                if (stampedCount === TotalEcardSpaces) {
+                    simulatePurchaseBtn.classList.add('hidden');
+                    unlockNewCardBtn.classList.remove('hidden');
+                } else {
+                    simulatePurchaseBtn.classList.remove('hidden');
+                    unlockNewCardBtn.classList.add('hidden');
+                }
+            }
+
+            simulatePurchaseBtn.addEventListener('click', () => {
+                const firstEmptyIndex = ecardState.findIndex(stamped => stamped === false);
+
+                if (firstEmptyIndex !== -1) {
+                    ecardState[firstEmptyIndex] = true;
+                    localStorage.setItem('ecardState', JSON.stringify(ecardState));
+                    renderEcard();
+
+                    const revealedOffer = ecardOffersConfig[firstEmptyIndex];
+                    if (revealedOffer) {
+                        alert(`🎉 Congratulations! You've unlocked: ${revealedOffer}`);
+                        localStorage.setItem('jeanettics_active_ecard_discount', revealedOffer);
+                    } else {
+                        alert('⭐ You\'ve earned a stamp!');
+                    }
+                } else {
+                    alert('Your e-card is already full! Unlock a new one for more rewards.');
+                }
+            });
+
+            unlockNewCardBtn.addEventListener('click', () => {
+                if (confirm("Are you sure you want to unlock a new E-Card? Your current progress will be reset and new offers will be generated.")) {
+                    initializeNewEcard();
+                    renderEcard();
+                    localStorage.removeItem('jeanettics_active_ecard_discount'); // Clear any active discount
+                    alert("🆕 A new E-Card has been unlocked with fresh offers!");
+                }
+            });
+
+            // Check Login Status
+            async function checkLoginStatus() {
+                const token = localStorage.getItem('jwtToken');
+
+                if (token) {
+                    unauthenticatedContent.classList.add('hidden');
+                    authenticatedContent.classList.remove('hidden');
+                    logoutListItem.classList.remove('hidden');
+                    await loadUserProfile(token);
+                } else {
+                    unauthenticatedContent.classList.remove('hidden');
+                    authenticatedContent.classList.add('hidden');
+                    logoutListItem.classList.add('hidden');
+                }
+            }
+
+            async function loadUserProfile(token) {
+                try {
+                    // Mock data - replace with actual API call
+                    const data = {
+                        user: {
+                            name: sessionStorage.getItem('currentUserName') || 'Jeanettics User'
+                            // Email is intentionally not loaded or displayed
+                        }
+                    };
+
+                    userNameElement.textContent = data.user.name;
+                    // userEmailElement.textContent = data.user.email; // This line is removed
+
+                    sessionStorage.setItem('currentUserName', data.user.name);
+                    // sessionStorage.setItem('currentUserEmail', data.user.email); // This line is removed
+
+                    // Address management
+                    const pickupMtaaniAddress = localStorage.getItem('pickupMtaaniAddress');
+                    const personalAddress = localStorage.getItem('personalDeliveryAddress');
+
+                    if (pickupMtaaniAddress) {
+                        deliveryAddressElement.innerHTML = `<strong>Pick Up Mtaani:</strong> ${pickupMtaaniAddress}`;
+                        editAddressBtn.classList.add('hidden'); // Hide edit button if pickup mtaani is set
+                    } else if (personalAddress) {
+                        const address = JSON.parse(personalAddress);
+                        deliveryAddressElement.textContent = `${address.street}, ${address.city}, ${address.zip}`;
+                        editAddressBtn.classList.remove('hidden');
+                    } else {
+                        deliveryAddressElement.textContent = 'Not set (Home Delivery or Pick Up Mtaani)';
+                        editAddressBtn.classList.remove('hidden');
+                    }
+
+                    // Load past orders
+                    const mockOrders = JSON.parse(localStorage.getItem('pastOrders')) || [
+                        { id: 'ORD001', date: '2024-12-15', total: 7500.00, items: [{name: 'Classic Denim Jeans', qty: 1}, {name: 'Jeanette T-Shirt', qty: 1}] },
+                        { id: 'ORD002', date: '2024-11-20', total: 12000.00, items: [{name: 'Vintage Jean Jacket', qty: 1}] }
+                    ];
+
+                    if (mockOrders.length > 0) {
+                        pastOrdersList.innerHTML = '';
+                        itemSelect.innerHTML = '<option value="">-- Select a purchased item --</option>';
+
+                        mockOrders.forEach(order => {
+                            const orderDiv = document.createElement('div');
+                            orderDiv.className = 'order-item';
+                            const itemNames = order.items.map(item => `${item.qty}x ${item.name}`).join(', ');
+                            orderDiv.innerHTML = `
+                                <p><strong>Order #${order.id}</strong> - ${order.date}</p>
+                                <p>Items: ${itemNames}</p>
+                                <p>Total: KSH ${order.total.toLocaleString()}</p>
+                            `;
+                            pastOrdersList.appendChild(orderDiv);
+
+                            order.items.forEach(item => {
+                                if (!Array.from(itemSelect.options).some(opt => opt.value === item.name)) {
+                                    const option = document.createElement('option');
+                                    option.value = item.name;
+                                    option.textContent = item.name;
+                                    itemSelect.appendChild(option);
+                                }
+                            });
+                        });
+                    }
+
+                    renderEcard();
+
+                } catch (error) {
+                    console.error('Error fetching profile:', error);
+                    alert('Failed to load profile data. Please try again.');
+                    checkLoginStatus();
+                }
+            }
+
+            // Address form handling
+            editAddressBtn.addEventListener('click', () => {
+                addressForm.classList.remove('hidden');
+                const personalAddress = localStorage.getItem('personalDeliveryAddress');
+                if (personalAddress) {
+                    const address = JSON.parse(personalAddress);
+                    document.getElementById('street').value = address.street || '';
+                    document.getElementById('city').value = address.city || '';
+                    document.getElementById('zip').value = address.zip || '';
+                }
+                localStorage.removeItem('pickupMtaaniAddress'); // Clear pickup mtaani if editing home address
+            });
+
+            cancelAddressBtn.addEventListener('click', () => {
+                addressForm.classList.add('hidden');
+                addressMessage.textContent = '';
+                addressMessage.className = 'message';
+                loadUserProfile(localStorage.getItem('jwtToken')); // Re-load to show current address
+            });
+
+            addressForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const street = document.getElementById('street').value;
+                const city = document.getElementById('city').value;
+                const zip = document.getElementById('zip').value;
+
+                const newAddress = { street, city, zip };
+                localStorage.setItem('personalDeliveryAddress', JSON.stringify(newAddress));
+                deliveryAddressElement.textContent = `${street}, ${city}, ${zip}`;
+                addressMessage.textContent = 'Home delivery address saved successfully!';
+                addressMessage.className = 'message success';
+                addressForm.classList.add('hidden');
+                setTimeout(() => {
+                    addressMessage.textContent = '';
+                    addressMessage.className = 'message';
+                }, 3000);
+            });
+
+            // Review form handling
+            reviewForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const selectedItem = itemSelect.value;
+                const rating = document.getElementById('rating').value;
+                const reviewText = document.getElementById('review-text').value;
+
+                if (!selectedItem) {
+                    reviewMessage.textContent = 'Please select an item to review.';
+                    reviewMessage.className = 'message error';
+                    return;
+                }
+
+                if (rating < 1 || rating > 5) {
+                    reviewMessage.textContent = 'Rating must be between 1 and 5 stars.';
+                    reviewMessage.className = 'message error';
+                    return;
+                }
+
+                if (reviewText.trim() === '') {
+                    reviewMessage.textContent = 'Please write your review.';
+                    reviewMessage.className = 'message error';
+                    return;
+                }
+
+                // Simulate API call for review submission
+                console.log('Submitting review:', { selectedItem, rating, reviewText });
+                reviewMessage.textContent = 'Submitting review...';
+                reviewMessage.className = 'message';
+
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+
+                    // In a real application, you'd send this data to a backend API
+                    // Example:
+                    // const response = await fetch('/api/reviews', {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json',
+                    //         'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+                    //     },
+                    //     body: JSON.stringify({ itemId: selectedItem, rating, reviewText })
+                    // });
+                    // if (!response.ok) {
+                    //     throw new Error('Failed to submit review');
+                    // }
+
+                    reviewMessage.textContent = 'Review submitted successfully! Thank you for your feedback.';
+                    reviewMessage.className = 'message success';
+                    reviewForm.reset(); // Clear the form
+
+                } catch (error) {
+                    console.error('Error submitting review:', error);
+                    reviewMessage.textContent = 'Failed to submit review. Please try again.';
+                    reviewMessage.className = 'message error';
+                } finally {
+                    setTimeout(() => {
+                        reviewMessage.textContent = '';
+                        reviewMessage.className = 'message';
+                    }, 5000);
+                }
+            });
+
+            // Logout functionality
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('jwtToken');
+                sessionStorage.removeItem('currentUserName');
+                sessionStorage.removeItem('currentUserEmail'); // Removed from here as well
+                localStorage.removeItem('personalDeliveryAddress');
+                localStorage.removeItem('pickupMtaaniAddress');
+                localStorage.removeItem('ecardState');
+                localStorage.removeItem('ecardOffersConfig');
+                localStorage.removeItem('jeanettics_active_ecard_discount');
+                // You might also clear past orders or other user-specific data if desired
+
+                checkLoginStatus(); // Re-render profile based on logged out state
+                alert('You have been successfully logged out.');
+                window.location.href = 'index.html'; // Redirect to home page
+            });
+
+            // Initial check on page load
+            checkLoginStatus();
+            updateCartCountDisplay(); // Ensure cart count is updated on load
+        });
+    </script>
+</body>
+</html>

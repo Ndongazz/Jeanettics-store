@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Jeanettics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Glacial+Indifference:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Root Variables */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --accent-color: #f39c12;
+            --text-color: #333;
+            --light-text: #666;
+            --background-color: #fff;
+            --light-bg: #f8f9fa;
+            --border-color: #e9ecef;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --header-height: 120px; /* Approximate height of main and secondary nav combined */
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Spartan', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--background-color);
+            overflow-x: hidden;
+            padding-top: var(--header-height); /* To prevent content from being hidden under fixed header */
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links li {
+            position: relative; /* For dropdown */
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary-color);
+            background: rgba(231, 76, 60, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .cart-count, .like-count {
+            background: var(--gradient-secondary);
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            animation: pulse 2s infinite;
+            display: inline-block; /* Ensure padding works */
+            min-width: 25px; /* Minimum width for single digits */
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Secondary Navigation */
+        .secondary-nav {
+            background: var(--primary-color);
+            padding: 0.8rem 2rem;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .secondary-nav .nav-links {
+            justify-content: center;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .secondary-nav .nav-links a {
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 5px;
+        }
+
+        .secondary-nav .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--accent-color);
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-family: 'Spartan', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .dropdown-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--accent-color);
+        }
+
+        .dropdown-menu {
+            list-style: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 10;
+            padding: 0.5rem 0;
+            margin-top: 10px; /* Space between button and menu */
+        }
+
+        .dropdown-menu.show-menu {
+            opacity: 1;
+            visibility: visible;
+            margin-top: 5px;
+        }
+
+        .dropdown-menu li a {
+            color: var(--text-color);
+            padding: 0.8rem 1.5rem;
+            display: block;
+            white-space: nowrap;
+            text-align: left;
+            border-radius: 0; /* Remove border-radius from individual links */
+        }
+
+        .dropdown-menu li a:hover {
+            background: var(--light-bg); /* Use light-bg for hover in dropdown */
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero-text {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: url('https://images.unsplash.com/photo-1542848902-146660144f2b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+            color: white;
+            position: relative;
+            z-index: 1; /* Above possible background effects */
+        }
+
+        .hero-text::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            z-index: -1;
+        }
+
+        .hero-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            animation: fadeInDown 1s ease-out forwards;
+        }
+
+        .hero-text p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1.2s ease-out forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Main Content Sections */
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-section {
+            margin-bottom: 3rem;
+        }
+
+        .product-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .product-section h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .side-scroll-grid {
+            display: flex; /* Override grid for horizontal scroll */
+            overflow-x: auto; /* Enable horizontal scrolling */
+            scroll-snap-type: x mandatory; /* Snap to items */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            gap: 1.5rem; /* Space between items */
+            padding-bottom: 1.5rem; /* Space for scrollbar */
+        }
+
+        .side-scroll-grid::-webkit-scrollbar {
+            height: 10px;
+        }
+
+        .side-scroll-grid::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 10px;
+        }
+
+        .side-scroll-grid::-webkit-scrollbar-track {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
+
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            flex-shrink: 0; /* Prevent items from shrinking in side-scroll-grid */
+            width: 250px; /* Fixed width for horizontal scroll items */
+            scroll-snap-align: start; /* Snap alignment for horizontal scroll */
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.02);
+        }
+
+        .product-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-card p {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .product-card .original-price {
+            font-size: 0.95rem;
+            color: var(--light-text);
+            text-decoration: line-through;
+            margin-bottom: 0;
+        }
+
+        .product-card .sale-price {
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 0.2rem;
+        }
+
+        .product-card .discount-percentage {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            font-weight: normal;
+        }
+
+        .like-btn, .cart-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            width: calc(100% - 1rem); /* Adjust for padding */
+        }
+
+        .like-btn {
+            background: var(--secondary-color);
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .like-btn:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        .cart-btn {
+            background: var(--gradient-primary);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 1rem;
+            width: 90%;
+        }
+
+        .cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background: var(--gradient-secondary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .main-nav, .secondary-nav .nav-links {
+                padding: 1rem;
+            }
+            .hero-text h2 {
+                font-size: 3rem;
+            }
+            .hero-text p {
+                font-size: 1.3rem;
+            }
+            .product-section h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
+            .secondary-nav .nav-links {
+                gap: 1.5rem;
+            }
+            .hero-text {
+                padding: 3rem 1.5rem;
+            }
+            .hero-text h2 {
+                font-size: 2.5rem;
+            }
+            .hero-text p {
+                font-size: 1.1rem;
+            }
+            .product-section h2 {
+                font-size: 2rem;
+            }
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+            .side-scroll-grid {
+                padding-bottom: 1rem; /* Adjust for smaller scrollbar */
+            }
+            .product-card {
+                width: 200px; /* Adjust for smaller screens */
+                padding: 1rem;
+            }
+            .product-card img {
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.8rem;
+            }
+            .nav-links {
+                gap: 0.8rem;
+            }
+            .nav-links a {
+                padding: 0.4rem 0.8rem;
+            }
+            .secondary-nav .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.8rem;
+            }
+            .dropdown-menu {
+                min-width: 150px;
+            }
+            .hero-text h2 {
+                font-size: 2rem;
+            }
+            .hero-text p {
+                font-size: 1rem;
+            }
+            main {
+                padding: 1rem;
+            }
+            .product-section h2 {
+                font-size: 1.8rem;
+            }
+            .product-card {
+                padding: 0.8rem;
+            }
+            .product-card h3 {
+                font-size: 1.4rem;
+            }
+            .product-card p {
+                font-size: 1.1rem;
+            }
+            .like-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1.3rem;
+                top: 10px;
+                right: 10px;
+            }
+            .cart-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <h1 class="logo">Jeanettics</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart <span id="cart-count" class="cart-count">0</span></a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+
+        <div class="secondary-nav">
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <button id="shopToggle" class="dropdown-btn">Shop Now ▾</button>
+                    <ul class="dropdown-menu" id="shopMenu">
+                        <li><a href="tops.html">Tops</a></li>
+                        <li><a href="skirts.html">Skirts</a></li>
+                        <li><a href="dresses.html">Dresses</a></li>
+                        <li><a href="trousers.html">Trousers</a></li>
+                        <li><a href="bags.html">Bags</a></li>
+                        <li><a href="belts.html">Belts</a></li>
+                        <li><a href="shop.html#all-products">All Items</a></li>
+                    </ul>
+                </li>
+                <li><a href="favorites.html">Favorites <span id="like-count" class="like-count">0</span></a></li>
+                <li><a href="stylemagazine.html">Jeanettics Magazine</a></li>
+                <li><a href="jeanettics101.html">Jeanettics 101</a></li>
+            </ul>
+        </div>
+
+        <section class="hero-text">
+            <h2>Thrifted Meets Timeless</h2>
+            <p>Shop unique pieces styled for the modern you.</p>
+        </section>
+    </header>
+
+    <main>
+        <section class="product-section">
+            <h2>New Arrivals</h2>
+            <div class="product-grid side-scroll-grid" id="new-arrivals-grid">
+            </div>
+        </section>
+
+        <section class="product-section">
+            <h2>Our Looks</h2>
+            <div class="product-grid side-scroll-grid" id="our-looks-grid">
+            </div>
+        </section>
+
+        <section class="product-section">
+            <h2>Items on Sale</h2>
+            <div class="product-grid side-scroll-grid" id="on-sale-grid">
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Jeanettics. All rights reserved. | Sustainable Fashion for a Better Tomorrow</p>
+    </footer>
+
+    <script src="Scripts/productsData.js"></script>
+    <script src="Scripts/common.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to update cart count display (moved here for self-contained example)
+            function updateCartCountDisplay() {
+                const cartCount = JSON.parse(localStorage.getItem('cartItems') || '[]').length;
+                const cartCountElement = document.getElementById('cart-count');
+                if (cartCountElement) {
+                    cartCountElement.textContent = cartCount;
+                    cartCountElement.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        cartCountElement.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            }
+
+            // Function to update favorite count display (moved here for self-contained example)
+            function updateLikeCountDisplay() {
+                const likedItems = JSON.parse(localStorage.getItem('likedItems') || '[]').length;
+                const likeCountElement = document.getElementById('like-count');
+                if (likeCountElement) {
+                    likeCountElement.textContent = likedItems;
+                    likeCountElement.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        likeCountElement.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            }
+
+            // Initialize counts on page load
+            updateCartCountDisplay();
+            updateLikeCountDisplay();
+
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('header');
+                if (window.scrollY > 50) {
+                    header.style.background = 'rgba(255, 255, 255, 0.98)';
+                    header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.15)';
+                } else {
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                    header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                }
+            });
+
+            // Handle shop dropdown toggle
+            const toggleBtn = document.getElementById("shopToggle");
+            const menu = document.getElementById("shopMenu");
+
+            toggleBtn.addEventListener("click", function(e) {
+                e.stopPropagation(); // Prevent click from bubbling up
+                menu.classList.toggle("show-menu");
+            });
+
+            // Close the menu when clicking outside
+            document.addEventListener("click", function(e) {
+                if (!menu.contains(e.target) && !toggleBtn.contains(e.target)) {
+                    menu.classList.remove("show-menu");
+                }
+            });
+
+            // Mock Product Data (replace with actual data from productsData.js if available)
+            const allProductsData = {
+                "prod1": { id: "prod1", name: "Vintage Floral Dress", img: "https://images.unsplash.com/photo-1571933931652-32b0f44747a9?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 3500, originalPrice: null, isNewArrival: true, isLook: false, isOnSale: false, description: "A beautiful floral dress with a vintage cut, perfect for any occasion." },
+                "prod2": { id: "prod2", name: "Classic Denim Jacket", img: "https://images.unsplash.com/photo-1517228800557-ad6d71b78297?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 4800, originalPrice: null, isNewArrival: true, isLook: false, isOnSale: false, description: "Timeless denim jacket, a versatile addition to your wardrobe." },
+                "prod3": { id: "prod3", name: "Boho Maxi Skirt", img: "https://images.unsplash.com/photo-1549887552-cb41977717a0?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 2800, originalPrice: 3500, isNewArrival: false, isLook: false, isOnSale: true, description: "Flowy and comfortable maxi skirt with bohemian patterns." },
+                "prod4": { id: "prod4", name: "Leather Crossbody Bag", img: "https://images.unsplash.com/photo-1601614917126-ef85434cf93f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 6200, originalPrice: null, isNewArrival: false, isLook: true, isOnSale: false, description: "Elegant leather bag, perfect for everyday use." },
+                "prod5": { id: "prod5", name: "Striped Cotton Top", img: "https://images.unsplash.com/photo-1520023476495-2c815243b81d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 1800, originalPrice: null, isNewArrival: true, isLook: false, isOnSale: false, description: "Comfortable and stylish cotton top with classic stripes." },
+                "prod6": { id: "prod6", name: "High-Waisted Trousers", img: "https://images.unsplash.com/photo-1551028080-e908616140b9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 3200, originalPrice: 4000, isNewArrival: false, isLook: true, isOnSale: true, description: "Chic high-waisted trousers, versatile for work or casual outings." },
+                "prod7": { id: "prod7", name: "Elegant Evening Dress", img: "https://images.unsplash.com/photo-1587854692138-971c26b2b28c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 7500, originalPrice: null, isNewArrival: false, isLook: true, isOnSale: false, description: "A stunning dress for special occasions, made with luxurious fabric." },
+                "prod8": { id: "prod8", name: "Casual Denim Skirt", img: "https://images.unsplash.com/photo-1549487508-2e3d3b7f83f2?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 2500, originalPrice: null, isNewArrival: true, isLook: false, isOnSale: false, description: "A comfortable and stylish denim skirt, perfect for everyday wear." },
+                "prod9": { id: "prod9", name: "Woven Belt", img: "https://images.unsplash.com/photo-1594957421110-eb59b666a2e4?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", price: 1200, originalPrice: 1500, isNewArrival: false, isLook: false, isOnSale: true, description: "A stylish woven belt to complete any outfit." }
+            };
+
+
+            // Add to Cart Function (mock)
+            window.addToCart = function(product) {
+                let cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+                const existingItemIndex = cartItems.findIndex(item => item.id === product.id);
+
+                if (existingItemIndex > -1) {
+                    cartItems[existingItemIndex].quantity = (cartItems[existingItemIndex].quantity || 1) + 1;
+                } else {
+                    cartItems.push({ ...product, quantity: 1 });
+                }
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                updateCartCountDisplay();
+                alert(`${product.name} added to cart!`);
+            };
+
+            // Add to Favorites Function (mock)
+            window.addToFavorites = function(product) {
+                let likedItems = JSON.parse(localStorage.getItem('likedItems') || '[]');
+                const existingItemIndex = likedItems.findIndex(item => item.id === product.id);
+
+                if (existingItemIndex === -1) {
+                    likedItems.push(product);
+                    localStorage.setItem('likedItems', JSON.stringify(likedItems));
+                    updateLikeCountDisplay();
+                    alert(`${product.name} added to favorites!`);
+                } else {
+                    alert(`${product.name} is already in your favorites!`);
+                }
+            };
+
+
+            // Function to create a product card HTML
+            function createProductCard(product) {
+                let priceHtml = '';
+                if (product.originalPrice !== null && product.price < product.originalPrice) {
+                    // Calculate discount percentage
+                    const discount = ((product.originalPrice - product.price) / product.originalPrice) * 100;
+                    const discountDisplay = discount.toFixed(0); // Round to whole number
+
+                    priceHtml = `
+                        <p class="original-price"><del>Ksh ${product.originalPrice.toLocaleString('en-KE')}</del></p>
+                        <p class="sale-price">Ksh ${product.price.toLocaleString('en-KE')} <span class="discount-percentage">-${discountDisplay}%</span></p>
+                    `;
+                } else {
+                    priceHtml = `<p>Ksh ${product.price.toLocaleString('en-KE')}</p>`;
+                }
+
+                return `
+                    <div class="product-card" data-product-id="${product.id}">
+                        <img src="${product.img}" alt="${product.name}" onerror="this.onerror=null;this.src='https://placehold.co/200x200/F8F8F8/333?text=Image+Missing';" />
+                        <h3>${product.name}</h3>
+                        ${priceHtml}
+                        <button onclick='addToFavorites(${JSON.stringify(product).replace(/'/g, "\\'").replace(/"/g, '&quot;')})' class="like-btn">♥</button>
+                        <button onclick='addToCart(${JSON.stringify(product).replace(/'/g, "\\'").replace(/"/g, '&quot;')})' class="cart-btn">Add to Cart</button>
+                    </div>
+                `;
+            }
+
+            // Get product data for different sections by filtering allProductsData
+            const newArrivals = Object.values(allProductsData).filter(product => product.isNewArrival);
+            const ourLooks = Object.values(allProductsData).filter(product => product.isLook);
+            const onSaleItems = Object.values(allProductsData).filter(product => product.isOnSale);
+
+            // Render products into their respective grids
+            const newArrivalsGrid = document.getElementById('new-arrivals-grid');
+            newArrivals.forEach(product => {
+                newArrivalsGrid.innerHTML += createProductCard(product);
+            });
+
+            const ourLooksGrid = document.getElementById('our-looks-grid');
+            ourLooks.forEach(product => {
+                ourLooksGrid.innerHTML += createProductCard(product);
+            });
+
+            const onSaleGrid = document.getElementById('on-sale-grid');
+            onSaleItems.forEach(product => {
+                onSaleGrid.innerHTML += createProductCard(product);
+            });
+
+            // Event Listener for Product Card Clicks
+            document.querySelectorAll('.product-section .product-grid').forEach(grid => {
+                grid.addEventListener('click', function(event) {
+                    const productCard = event.target.closest('.product-card');
+                    if (productCard && !event.target.classList.contains('like-btn') && !event.target.classList.contains('cart-btn')) {
+                        const productId = productCard.dataset.productId;
+                        if (productId) {
+                            window.location.href = `product.html?id=${productId}`;
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

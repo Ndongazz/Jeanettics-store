@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Checkout - Jeanettics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Glacial+Indifference:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Updated Root Variables for consistency */
+        :root {
+            --primary-color: #2c3e50; /* Dark blue/grey */
+            --secondary-color: #e74c3c; /* Reddish orange */
+            --accent-color: #f39c12; /* Orange/Yellow */
+            --text-color: #333;
+            --light-text: #666;
+            --background-color: #fff;
+            --light-bg: #f8f9fa;
+            --border-color: #e9ecef;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Blue-purple gradient */
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); /* Pink-red gradient */
+            --success-color: #22c55e;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Spartan', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--light-bg);
+            min-height: 100vh;
+        }
+
+        /* Header Styles - Consistent with other pages */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary-color);
+            background: rgba(231, 76, 60, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .cart-count, .like-count {
+            background: var(--gradient-secondary);
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(245, 87, 108, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(245, 87, 108, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 87, 108, 0); }
+        }
+
+        .secondary-nav {
+            background: var(--primary-color);
+            padding: 0.7rem 2rem;
+            box-shadow: inset 0 -3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .secondary-nav .nav-links {
+            justify-content: center;
+            gap: 3rem;
+        }
+
+        .secondary-nav .nav-links a,
+        .secondary-nav .dropdown-btn {
+            color: white;
+            font-weight: 400;
+            padding: 0.5rem 1.5rem;
+        }
+
+        .secondary-nav .nav-links a:hover,
+        .secondary-nav .nav-links a.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Dropdown specific styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-family: 'Spartan', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-color);
+            list-style: none;
+            min-width: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            padding: 0.5rem 0;
+            z-index: 100;
+        }
+
+        .dropdown:hover .dropdown-menu,
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(5px);
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            border-radius: 0; /* Remove pill shape for internal menu items */
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--accent-color); /* Highlight text on hover */
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+
+        /* Main Checkout Content */
+        .checkout-main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--background-color);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            min-height: calc(100vh - 200px); /* Adjust based on header/footer height */
+        }
+
+        .section-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .checkout-container {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            justify-content: center;
+        }
+
+        .checkout-form-section {
+            flex: 2; /* Takes more space */
+            min-width: 350px; /* Ensures form doesn't get too narrow */
+        }
+
+        .checkout-summary-section {
+            flex: 1; /* Takes less space */
+            min-width: 300px; /* Ensures summary doesn't get too narrow */
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            align-self: flex-start; /* Aligns to the top */
+        }
+
+        .checkout-form-section h3,
+        .checkout-summary-section h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group-section {
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: var(--background-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color);
+        }
+        
+        .form-group-section h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"],
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Spartan', sans-serif;
+            font-size: 1rem;
+            color: var(--text-color);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.2);
+        }
+
+        .form-group input.invalid,
+        .form-group select.invalid {
+            border-color: var(--error-color);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+        }
+
+        .required {
+            color: var(--secondary-color);
+            margin-left: 3px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color); /* For checkbox color */
+        }
+
+        /* Delivery Method Radios */
+        .delivery-type-selection {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .delivery-type-selection input[type="radio"] {
+            display: none; /* Hide default radio button */
+        }
+
+        .delivery-type-selection label {
+            background: var(--background-color);
+            border: 2px solid var(--border-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: var(--light-text);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .delivery-type-selection label::before {
+            content: '';
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .delivery-type-selection input[type="radio"]:checked + label {
+            border-color: var(--accent-color);
+            background: rgba(243, 156, 18, 0.08);
+            color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .delivery-type-selection input[type="radio"]:checked + label::before {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: inset 0 0 0 4px var(--background-color); /* Inner circle */
+        }
+
+        .delivery-details-group {
+            border: 1px dashed var(--border-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            background-color: var(--light-bg);
+        }
+        
+        .mtaani-cost {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 1rem;
+            text-align: center;
+            padding: 0.5rem;
+            background-color: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Payment Method */
+        .payment-method-option {
+            margin-bottom: 1.2rem;
+        }
+
+        .payment-method-option input[type="radio"] {
+            display: none;
+        }
+
+        .payment-method-option label {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: var(--text-color);
+            background: var(--background-color);
+        }
+
+        .payment-method-option label::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        .payment-method-option input[type="radio"]:checked + label {
+            border-color: var(--accent-color);
+            background: rgba(243, 156, 18, 0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .payment-method-option input[type="radio"]:checked + label::before {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: inset 0 0 0 5px var(--background-color);
+        }
+
+
+        /* Order Summary Styles */
+        .checkout-items-list {
+            max-height: 300px; /* Scrollable area for many items */
+            overflow-y: auto;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+        }
+
+        .checkout-summary-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed rgba(0,0,0,0.05);
+        }
+
+        .checkout-summary-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .checkout-summary-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout-summary-item .item-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .checkout-summary-item .item-name {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .checkout-summary-item .item-qty {
+            font-size: 0.85rem;
+            color: var(--light-text);
+        }
+
+        .checkout-summary-item .item-price {
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 1rem;
+        }
+
+        .checkout-summary-details .summary-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+
+        .checkout-summary-details .summary-line span:first-child {
+            font-weight: 500;
+        }
+
+        .checkout-summary-details .total-line {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            border-top: 2px dashed var(--border-color);
+            padding-top: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+            box-shadow: none;
+        }
+
+        /* Footer */
+        .main-footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            font-size: 0.9rem;
+        }
+
+        /* M-Pesa Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--background-color);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            position: relative;
+            max-width: 500px;
+            width: 90%;
+            transform: translateY(20px);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-content h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-content p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .modal-content .till-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .modal-content #modal-total-amount {
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .modal-content .btn-primary {
+            margin-top: 2rem;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--light-text);
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: var(--secondary-color);
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .checkout-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .checkout-form-section,
+            .checkout-summary-section {
+                width: 95%; /* Adjust width for smaller screens */
+                min-width: unset;
+                max-width: 600px; /* Cap max width */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
+
+            .secondary-nav .nav-links {
+                gap: 1.5rem;
+            }
+
+            .checkout-main {
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+
+            .section-heading {
+                font-size: 2rem;
+            }
+
+            .checkout-summary-section h3,
+            .checkout-form-section h3 {
+                font-size: 1.6rem;
+            }
+
+            .delivery-type-selection {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn-primary {
+                font-size: 1.1rem;
+                padding: 0.8rem 1rem;
+            }
+
+            .modal-content {
+                padding: 2rem;
+            }
+
+            .modal-content h2 {
+                font-size: 1.8rem;
+            }
+
+            .modal-content p {
+                font-size: 1rem;
+            }
+
+            .modal-content .till-number {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .secondary-nav .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .dropdown-menu {
+                min-width: unset;
+                width: 90%;
+            }
+
+            .dropdown-menu li a {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav">
+            <h1 class="logo">Jeanettics</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart <span id="cart-count" class="cart-count">0</span></a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+        <div class="secondary-nav">
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <button id="shopToggle" class="dropdown-btn">Shop By Category ▾</button>
+                    <ul class="dropdown-menu" id="shopMenu">
+                        <li><a href="shop.html#tops">Tops</a></li>
+                        <li><a href="shop.html#skirts">Skirts</a></li>
+                        <li><a href="shop.html#dresses">Dresses</a></li>
+                        <li><a href="shop.html#trousers">Trousers</a></li>
+                        <li><a href="shop.html#bags">Bags</a></li>
+                        <li><a href="shop.html#belts">Belts</a></li>
+                        <li><a href="shop.html#all-products">All Items</a></li>
+                    </ul>
+                </li>
+                <li><a href="favorites.html">Favorites <span id="like-count" class="like-count">0</span></a></li>
+                <li><a href="stylemagazine.html">Jeanettics Magazine</a></li>
+                <li><a href="jeanettics101.html">Jeanettics 101</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="checkout-main content">
+        <h2 class="section-heading">Checkout</h2>
+
+        <div class="checkout-container">
+            <div class="checkout-form-section">
+                <form id="checkout-form">
+                    <section class="form-group-section">
+                        <h3>Contact Information</h3>
+                        <div class="form-group">
+                            <label for="first-name">First Name <span class="required">*</span></label>
+                            <input type="text" id="first-name" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Last Name <span class="required">*</span></label>
+                            <input type="text" id="last-name" name="lastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone-number">Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="phone-number" name="phoneNumber" required pattern="[0-9]{10,}" title="Please enter a valid phone number (at least 10 digits)">
+                        </div>
+                        <div class="form-group">
+                            <label for="email-address">Email Address <span class="required">*</span></label>
+                            <input type="email" id="email-address" name="emailAddress" required>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="save-info" name="saveInfo">
+                            <label for="save-info">Save my information for next time</label>
+                        </div>
+                    </section>
+
+                    <section class="form-group-section">
+                        <h3>Delivery Method</h3>
+                        <div class="delivery-type-selection">
+                            <input type="radio" id="doorstep-delivery" name="delivery-type" value="doorstep" checked>
+                            <label for="doorstep-delivery">Doorstep Delivery</label><br>
+
+                            <input type="radio" id="mtaani-agent-delivery" name="delivery-type" value="mtaani">
+                            <label for="mtaani-agent-delivery">Mtaani Agent Delivery</label>
+                        </div>
+
+                        <div id="doorstep-delivery-details" class="delivery-details-group">
+                            <h4>Doorstep Delivery Address</h4>
+                            <div class="form-group">
+                                <label for="street-name">Street Name <span class="required">*</span></label>
+                                <input type="text" id="street-name" name="streetName">
+                            </div>
+                            <div class="form-group">
+                                <label for="apartment-number">Apartment/House No.</label>
+                                <input type="text" id="apartment-number" name="apartmentNumber">
+                            </div>
+                            <div class="form-group">
+                                <label for="building-name">Building Name</label>
+                                <input type="text" id="building-name" name="buildingName">
+                            </div>
+                            <div class="form-group">
+                                <label for="doorstep-location">Select Location <span class="required">*</span></label>
+                                <select id="doorstep-location" name="doorstepLocation" class="delivery-location-select">
+                                    <option value="">Select a location</option>
+                                    <option value="Nairobi_CBD">Nairobi CBD - Ksh 250</option>
+                                    <option value="Nairobi_Environs">Nairobi Environs (within 10km) - Ksh 350</option>
+                                    <option value="Major_Towns">Major Towns (Mombasa, Kisumu, Nakuru, Eldoret) - Ksh 500</option>
+                                    <option value="Other_Areas">Other Areas - Ksh 700</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="mtaani-agent-delivery-details" class="delivery-details-group" style="display: none;">
+                            <h4>Mtaani Agent Pick-up</h4>
+                            <div class="form-group">
+                                <label for="mtaani-location">Select Town <span class="required">*</span></label>
+                                <select id="mtaani-location" name="mtaaniLocation" class="delivery-location-select">
+                                    <option value="">Select a town</option>
+                                    <option value="Nairobi">Nairobi</option>
+                                    <option value="Mombasa">Mombasa</option>
+                                    <option value="Kisumu">Kisumu</option>
+                                    <option value="Nakuru">Nakuru</option>
+                                    <option value="Eldoret">Eldoret</option>
+                                    </select>
+                            </div>
+                            <div id="mtaani-agents-container" class="form-group" style="display: none;">
+                                <label for="mtaani-agent-select">Choose an Agent <span class="required">*</span></label>
+                                <select id="mtaani-agent-select" name="mtaaniAgent" class="delivery-location-select">
+                                    <option value="">Select an agent</option>
+                                </select>
+                                <p class="mtaani-cost">Delivery to Mtaani Agent: Ksh 150</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="form-group-section">
+                        <h3>Payment Method</h3>
+                        <div class="payment-method-option">
+                            <input type="radio" id="mpesa-payment" name="payment-method" value="mpesa" checked>
+                            <label for="mpesa-payment">M-Pesa (Till Number: 4079854)</label>
+                        </div>
+                        </section>
+
+                    <button type="submit" id="complete-order-btn" class="btn-primary">Complete Order</button>
+                </form>
+            </div>
+
+            <div class="checkout-summary-section">
+                <h3>Order Summary</h3>
+                <div id="checkout-items-list" class="checkout-items-list">
+                    </div>
+                <div class="checkout-summary-details">
+                    <div class="summary-line">
+                        <span>Subtotal:</span>
+                        <span id="checkout-subtotal">Ksh 0</span>
+                    </div>
+                    <div class="summary-line">
+                        <span>Shipping:</span>
+                        <span id="checkout-shipping">Ksh 0</span>
+                    </div>
+                    <div class="summary-line total-line">
+                        <span>Total:</span>
+                        <span id="checkout-total">Ksh 0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Jeanettics. All rights reserved.</p>
+    </footer>
+
+    <div id="mpesa-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Complete Your M-Pesa Payment</h2>
+            <p>Please send <strong><span id="modal-total-amount">Ksh 0</span></strong> to our M-Pesa Buy Goods Till Number:</p>
+            <p class="till-number">4079854</p>
+            <p>Once payment is confirmed, your order will be processed.</p>
+            <button id="modal-confirm-payment-btn" class="btn-primary">I have paid</button>
+        </div>
+    </div>
+
+    <script src="Scripts/productsData.js"></script>
+    <script src="Scripts/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Elements ---
+            const checkoutForm = document.getElementById('checkout-form');
+            const firstNameInput = document.getElementById('first-name');
+            const lastNameInput = document.getElementById('last-name');
+            const phoneNumberInput = document.getElementById('phone-number');
+            const emailAddressInput = document.getElementById('email-address');
+            const saveInfoCheckbox = document.getElementById('save-info');
+
+            const doorstepDeliveryRadio = document.getElementById('doorstep-delivery');
+            const mtaaniAgentDeliveryRadio = document.getElementById('mtaani-agent-delivery');
+            const doorstepDeliveryDetails = document.getElementById('doorstep-delivery-details');
+            const mtaaniAgentDeliveryDetails = document.getElementById('mtaani-agent-delivery-details');
+
+            const streetNameInput = document.getElementById('street-name');
+            const apartmentNumberInput = document.getElementById('apartment-number');
+            const buildingNameInput = document.getElementById('building-name');
+            const doorstepLocationSelect = document.getElementById('doorstep-location');
+
+            const mtaaniLocationSelect = document.getElementById('mtaani-location');
+            const mtaaniAgentsContainer = document.getElementById('mtaani-agents-container');
+            const mtaaniAgentSelect = document.getElementById('mtaani-agent-select');
+
+            const checkoutItemsList = document.getElementById('checkout-items-list');
+            const checkoutSubtotalDisplay = document.getElementById('checkout-subtotal');
+            const checkoutShippingDisplay = document.getElementById('checkout-shipping');
+            const checkoutTotalDisplay = document.getElementById('checkout-total');
+            const completeOrderBtn = document.getElementById('complete-order-btn');
+
+            const mpesaModal = document.getElementById('mpesa-modal');
+            const modalTotalAmount = document.getElementById('modal-total-amount');
+            const modalConfirmPaymentBtn = document.getElementById('modal-confirm-payment-btn');
+            const closeModalButton = document.querySelector('.modal-overlay .close-button');
+
+
+            // --- Data Definitions (can be moved to productsData.js if preferred) ---
+            const deliveryPrices = {
+                doorstep: {
+                    Nairobi_CBD: 250,
+                    Nairobi_Environs: 350,
+                    Major_Towns: 500,
+                    Other_Areas: 700
+                },
+                mtaani: 150 // Flat rate for mtaani delivery
+            };
+
+            const mtaaniAgents = {
+                Nairobi: [
+                    "Alemakwa Shop (CBD)", "PHYNESSBEAUTY COSMETICS (Town)", "Hope Salon (Buruburu)",
+                    "Blackpoint Buruburu", "Philadelphia House (CBD)", "Pickup Mtaani Star-Mall C1"
+                ],
+                Mombasa: [
+                    "AISHATHRIFT (Nyali)", "ROYAL CLOSET (Mtwapa)", "Mama Wambui's Shop (Rhino Mtwapa)"
+                ],
+                Kisumu: [
+                    "Kisumu Agent 1 (CBD)", "Kisumu Agent 2 (Milimani)"
+                ],
+                Nakuru: [
+                    "Nakuru Agent A (Town Centre)", "Nakuru Agent B (Lanet)"
+                ],
+                Eldoret: [
+                    "Eldoret Hub (Town)", "Eldoret Pick-up Point (Kapsabet Rd)"
+                ]
+            };
+
+            // --- Functions ---
+
+            function calculateShippingCost() {
+                let shippingCost = 0;
+                if (doorstepDeliveryRadio.checked) {
+                    const selectedLocation = doorstepLocationSelect.value;
+                    if (selectedLocation && deliveryPrices.doorstep[selectedLocation]) {
+                        shippingCost = deliveryPrices.doorstep[selectedLocation];
+                    }
+                } else if (mtaaniAgentDeliveryRadio.checked) {
+                    const selectedMtaaniLocation = mtaaniLocationSelect.value;
+                    const selectedMtaaniAgent = mtaaniAgentSelect.value;
+                    if (selectedMtaaniLocation && selectedMtaaniAgent) {
+                           shippingCost = deliveryPrices.mtaani;
+                    }
+                }
+                return shippingCost;
+            }
+
+            function renderCheckoutSummary() {
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                checkoutItemsList.innerHTML = '';
+                let subtotal = 0;
+
+                if (cart.length === 0) {
+                    checkoutItemsList.innerHTML = '<p class="empty-message" style="text-align: center;">Your cart is empty. <a href="shop.html">Go to shop</a></p>';
+                    completeOrderBtn.disabled = true;
+                } else {
+                    completeOrderBtn.disabled = false;
+                    cart.forEach(item => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.classList.add('checkout-summary-item');
+                        itemDiv.innerHTML = `
+                            <img src="${item.img}" alt="${item.name}" onerror="this.onerror=null;this.src='https://placehold.co/50x50/F8F8F8/333?text=Item';" />
+                            <div class="item-info">
+                                <span class="item-name">${item.name}</span>
+                                <span class="item-qty">x${item.quantity}</span>
+                            </div>
+                            <span class="item-price">Ksh ${(item.price * item.quantity).toLocaleString('en-KE')}</span>
+                        `;
+                        checkoutItemsList.appendChild(itemDiv);
+                        subtotal += item.price * item.quantity;
+                    });
+                }
+
+                const shipping = calculateShippingCost();
+                const total = subtotal + shipping;
+
+                checkoutSubtotalDisplay.textContent = `Ksh ${subtotal.toLocaleString('en-KE')}`;
+                checkoutShippingDisplay.textContent = `Ksh ${shipping.toLocaleString('en-KE')}`;
+                checkoutTotalDisplay.textContent = `Ksh ${total.toLocaleString('en-KE')}`;
+
+                // Update modal total
+                modalTotalAmount.textContent = `Ksh ${total.toLocaleString('en-KE')}`;
+
+                updateCartCountDisplay(); // Update header cart count
+            }
+
+            function loadProfileData() {
+                const savedInfo = JSON.parse(localStorage.getItem('jeanetticsProfile')) || {};
+                firstNameInput.value = savedInfo.firstName || '';
+                lastNameInput.value = savedInfo.lastName || '';
+                phoneNumberInput.value = savedInfo.phoneNumber || '';
+                emailAddressInput.value = savedInfo.emailAddress || '';
+                streetNameInput.value = savedInfo.streetName || '';
+                apartmentNumberInput.value = savedInfo.apartmentNumber || '';
+                buildingNameInput.value = savedInfo.buildingName || '';
+
+                // Check the checkbox if any info was loaded
+                if (savedInfo.firstName || savedInfo.emailAddress) {
+                    saveInfoCheckbox.checked = true;
+                }
+            }
+
+            function saveProfileData() {
+                const profile = {
+                    firstName: firstNameInput.value,
+                    lastName: lastNameInput.value,
+                    phoneNumber: phoneNumberInput.value,
+                    emailAddress: emailAddressInput.value,
+                    streetName: streetNameInput.value,
+                    apartmentNumber: apartmentNumberInput.value,
+                    buildingName: buildingNameInput.value
+                };
+                localStorage.setItem('jeanetticsProfile', JSON.stringify(profile));
+                alert("Your information has been saved!");
+            }
+
+            function clearProfileData() {
+                localStorage.removeItem('jeanetticsProfile');
+                alert("Saved information has been cleared.");
+            }
+
+            function populateMtaaniAgents(town) {
+                mtaaniAgentSelect.innerHTML = '<option value="">Select an agent</option>'; // Clear previous agents
+                if (town && mtaaniAgents[town]) {
+                    mtaaniAgents[town].forEach(agent => {
+                        const option = document.createElement('option');
+                        option.value = agent;
+                        option.textContent = agent;
+                        mtaaniAgentSelect.appendChild(option);
+                    });
+                    mtaaniAgentsContainer.style.display = 'block';
+                } else {
+                    mtaaniAgentsContainer.style.display = 'none';
+                }
+            }
+
+            function validateForm() {
+                let isValid = true;
+                const requiredFields = [
+                    firstNameInput, lastNameInput, phoneNumberInput, emailAddressInput
+                ];
+
+                // Validate common required fields
+                requiredFields.forEach(input => {
+                    if (!input.value.trim()) {
+                        input.classList.add('invalid');
+                        isValid = false;
+                    } else {
+                        input.classList.remove('invalid');
+                    }
+                });
+
+                // Validate phone number pattern
+                if (!phoneNumberInput.checkValidity()) {
+                    phoneNumberInput.classList.add('invalid');
+                    isValid = false;
+                }
+
+                // Validate email pattern
+                if (!emailAddressInput.checkValidity()) {
+                    emailAddressInput.classList.add('invalid');
+                    isValid = false;
+                }
+
+                // Validate delivery specific fields
+                if (doorstepDeliveryRadio.checked) {
+                    if (!streetNameInput.value.trim()) {
+                        streetNameInput.classList.add('invalid');
+                        isValid = false;
+                    } else {
+                        streetNameInput.classList.remove('invalid');
+                    }
+                    if (!doorstepLocationSelect.value) {
+                        doorstepLocationSelect.classList.add('invalid');
+                        isValid = false;
+                    } else {
+                        doorstepLocationSelect.classList.remove('invalid');
+                    }
+                } else if (mtaaniAgentDeliveryRadio.checked) {
+                    if (!mtaaniLocationSelect.value) {
+                        mtaaniLocationSelect.classList.add('invalid');
+                        isValid = false;
+                    } else {
+                        mtaaniLocationSelect.classList.remove('invalid');
+                    }
+                    if (!mtaaniAgentSelect.value) {
+                        mtaaniAgentSelect.classList.add('invalid');
+                        isValid = false;
+                    } else {
+                        mtaaniAgentSelect.classList.remove('invalid');
+                    }
+                }
+
+                if (!isValid) {
+                    alert("Please fill in all required fields and correct any errors.");
+                }
+                return isValid;
+            }
+
+
+            // --- Event Listeners ---
+
+            // Initial load of profile data
+            loadProfileData();
+
+            // Toggle delivery details visibility
+            doorstepDeliveryRadio.addEventListener('change', () => {
+                doorstepDeliveryDetails.style.display = 'block';
+                mtaaniAgentDeliveryDetails.style.display = 'none';
+                // Reset mtaani selections if switching away
+                mtaaniLocationSelect.value = '';
+                mtaaniAgentSelect.innerHTML = '<option value="">Select an agent</option>';
+                mtaaniAgentsContainer.style.display = 'none';
+                renderCheckoutSummary();
+            });
+
+            mtaaniAgentDeliveryRadio.addEventListener('change', () => {
+                doorstepDeliveryDetails.style.display = 'none';
+                mtaaniAgentDeliveryDetails.style.display = 'block';
+                // Reset doorstep fields if switching away
+                streetNameInput.value = '';
+                apartmentNumberInput.value = '';
+                buildingNameInput.value = '';
+                doorstepLocationSelect.value = '';
+                renderCheckoutSummary();
+            });
+
+            // Update summary when location/agent changes
+            doorstepLocationSelect.addEventListener('change', renderCheckoutSummary);
+            mtaaniLocationSelect.addEventListener('change', (event) => {
+                populateMtaaniAgents(event.target.value);
+                renderCheckoutSummary(); // Recalculate after town changes
+            });
+            mtaaniAgentSelect.addEventListener('change', renderCheckoutSummary); // Recalculate after agent changes
+
+            // Save/Clear profile info
+            saveInfoCheckbox.addEventListener('change', () => {
+                if (saveInfoCheckbox.checked) {
+                    saveProfileData();
+                } else {
+                    if (confirm("Are you sure you want to clear your saved information?")) {
+                        clearProfileData();
+                    } else {
+                        saveInfoCheckbox.checked = true; // Revert if user cancels
+                    }
+                }
+            });
+
+            // Form submission (M-Pesa simulation)
+            checkoutForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent default form submission
+
+                if (validateForm()) {
+                    const totalAmount = parseFloat(checkoutTotalDisplay.textContent.replace('Ksh ', '').replace(/,/g, ''));
+                    if (isNaN(totalAmount) || totalAmount <= 0) {
+                        alert("Your cart is empty or total is invalid. Please add items to proceed.");
+                        return;
+                    }
+
+                    // Show M-Pesa modal
+                    modalTotalAmount.textContent = `Ksh ${totalAmount.toLocaleString('en-KE')}`;
+                    mpesaModal.style.display = 'flex'; // Use flex for centering
+                    mpesaModal.classList.add('show'); // Add show class for transition
+                }
+            });
+
+            // M-Pesa Modal Close Button
+            closeModalButton.addEventListener('click', () => {
+                mpesaModal.classList.remove('show'); // Remove show class for transition
+                mpesaModal.addEventListener('transitionend', function handler() {
+                    mpesaModal.style.display = 'none';
+                    mpesaModal.removeEventListener('transitionend', handler);
+                });
+            });
+
+            // M-Pesa Modal "I have paid" button
+            modalConfirmPaymentBtn.addEventListener('click', () => {
+                alert("Thank you for your payment! Your order has been placed successfully.");
+                localStorage.removeItem('cart'); // Clear the cart
+                mpesaModal.classList.remove('show'); // Remove show class for transition
+                mpesaModal.addEventListener('transitionend', function handler() {
+                    mpesaModal.style.display = 'none';
+                    mpesaModal.removeEventListener('transitionend', handler);
+                    window.location.href = 'index.html'; // Redirect to homepage or order confirmation page
+                });
+            });
+
+            // Initial render of checkout summary
+            renderCheckoutSummary();
+        });
+
+        // Dropdown functionality for "Shop By Category" (from common.js if not already there)
+        document.addEventListener('DOMContentLoaded', () => {
+            const shopToggle = document.getElementById('shopToggle');
+            const shopMenu = document.getElementById('shopMenu');
+
+            if (shopToggle && shopMenu) {
+                shopToggle.addEventListener('click', () => {
+                    shopMenu.classList.toggle('show');
+                });
+
+                // Close the dropdown if the user clicks outside of it
+                window.addEventListener('click', (event) => {
+                    if (!event.target.matches('.dropdown-btn') && !event.target.closest('.dropdown-menu')) {
+                        if (shopMenu.classList.contains('show')) {
+                            shopMenu.classList.remove('show');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

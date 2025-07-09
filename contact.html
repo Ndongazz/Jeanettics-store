@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Contact Us - Jeanettics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Glacial+Indifference:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* This entire <style> block would ideally be moved to a separate styles/style.css file for better organization */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50; /* Dark Blue-Gray */
+            --secondary-color: #e74c3c; /* Red-Orange */
+            --accent-color: #f39c12; /* Orange-Yellow */
+            --text-color: #333; /* Dark Gray for main text */
+            --light-text: #666; /* Lighter Gray for secondary text */
+            --background-color: #fff; /* White */
+            --light-bg: #f8f9fa; /* Light Gray background */
+            --border-color: #e9ecef; /* Light border color */
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Blue-Purple Gradient */
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); /* Pink-Red Gradient */
+        }
+
+        body {
+            font-family: 'Spartan', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--background-color);
+            overflow-x: hidden;
+        }
+
+        /* Header Styles - Consistent across pages */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary-color);
+            background: rgba(231, 76, 60, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            background: var(--gradient-secondary);
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Common Content Wrapper */
+        .content {
+            max-width: 900px; /* Slightly narrower for forms */
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Section Heading - Consistent with About page's .values-heading */
+        .section-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem; /* Slightly larger for main page heading */
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1s ease forwards; /* Reuse animation from About page */
+            opacity: 0; /* Initial state for animation */
+        }
+        
+        /* Reusing About page's animation keyframes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* Contact Main Content */
+        .contact-main {
+            padding-top: 100px; /* Space for fixed header */
+            min-height: 100vh;
+            background: var(--light-bg); /* Light background for the content area */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top after header padding */
+        }
+
+        .contact-section {
+            background: var(--background-color);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 4rem; /* Space before footer */
+            width: 100%; /* Occupy available width within content max-width */
+        }
+
+        .contact-intro {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--light-text);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Form Styling */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem; /* Spacing between form groups */
+            margin-bottom: 3rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            color: var(--primary-color);
+            font-size: 0.95rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea {
+            padding: 1rem 1.2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 10px; /* Slightly rounded corners */
+            font-family: 'Spartan', sans-serif;
+            font-size: 1rem;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            transition: all 0.3s ease;
+            outline: none; /* Remove default outline */
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group textarea:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2); /* Soft focus ring */
+            background-color: var(--background-color);
+        }
+
+        .form-group textarea {
+            resize: vertical; /* Allow vertical resizing */
+            min-height: 120px;
+        }
+
+        .btn-primary {
+            padding: 1rem 2.5rem;
+            background: var(--gradient-primary); /* Use primary gradient for button */
+            color: white;
+            border: none;
+            border-radius: 50px; /* Pill shape */
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            margin-top: 1rem; /* Space above button */
+            align-self: center; /* Center the button in the form */
+            width: fit-content; /* Make button only as wide as its content */
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+            opacity: 0.9; /* Slight opacity change on hover */
+        }
+
+        /* Contact Details */
+        .contact-details {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px dashed var(--border-color); /* Subtle separator */
+        }
+
+        .contact-details-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-details p {
+            font-size: 1rem;
+            color: var(--light-text);
+            margin-bottom: 0.8rem;
+        }
+
+        .contact-details p a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .contact-details p a:hover {
+            color: var(--accent-color); /* Change color on hover for links */
+            text-decoration: underline;
+        }
+
+        .social-links {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .social-icon {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--gradient-primary); /* Social icon background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px) scale(1.05);
+            background: var(--gradient-secondary); /* Change gradient on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-icon img {
+            width: 24px;
+            height: 24px;
+            filter: brightness(0) invert(1); /* Makes SVG icons white */
+        }
+
+        /* Footer - Consistent across pages */
+        .main-footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            margin-top: auto; /* Push footer to the bottom */
+        }
+
+        /* Mobile Responsive - Consistent with About page */
+        @media (max-width: 768px) {
+            .main-nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
+
+            .contact-main {
+                padding-top: 120px; /* Adjust for stacked header */
+            }
+
+            .section-heading {
+                font-size: 2rem;
+            }
+
+            .contact-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-group input,
+            .form-group textarea,
+            .btn-primary {
+                font-size: 0.95rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .contact-details-heading {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Additional styles for the Favorites page dropdown menu from previous context */
+        .secondary-nav {
+            padding: 0.5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .secondary-nav .nav-links {
+            gap: 1.5rem;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            background: none;
+            border: none;
+            font-family: 'Spartan', sans-serif;
+            font-size: 1rem;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-btn:hover {
+            color: var(--secondary-color);
+            background: rgba(231, 76, 60, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            top: 100%; /* Position below the button */
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 0;
+            animation: fadeInScale 0.3s ease-out forwards;
+            transform-origin: top center;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+            padding: 0;
+        }
+
+        .dropdown-menu a {
+            color: var(--text-color);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            border-radius: 0; /* Override nav-links border-radius for dropdown items */
+            background: none; /* Override nav-links background for dropdown items */
+            font-size: 0.95rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: var(--light-bg);
+            color: var(--secondary-color);
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .like-count {
+            background: var(--gradient-primary); /* Use primary gradient for consistency */
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @media (max-width: 768px) {
+            .secondary-nav {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 0.5rem;
+            }
+            .secondary-nav .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.8rem;
+            }
+            .dropdown-menu {
+                position: static; /* Stack dropdown items on mobile */
+                transform: none;
+                width: 100%;
+                box-shadow: none;
+                border-top: 1px solid var(--border-color);
+                border-radius: 0;
+                padding: 0;
+            }
+            .dropdown:hover .dropdown-menu {
+                display: flex;
+                flex-direction: column;
+            }
+            .dropdown-menu a {
+                text-align: center;
+                padding: 0.8rem 1rem;
+            }
+        }
+
+        /* Shared animation classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav">
+            <h1 class="logo">Jeanettics</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart <span id="cart-count" class="cart-count">0</span></a></li>
+                <li><a href="contact.html" class="active">Contact Us</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contact-main">
+        <section class="contact-section content">
+            <h2 class="section-heading fade-in">Get in Touch</h2>
+            <p class="contact-intro fade-in">If you have any questions, feedback, or collaboration ideas — we’d love to hear from you!</p>
+
+            <form class="contact-form fade-in">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject (Optional)</label>
+                    <input type="text" id="subject" name="subject" placeholder="e.g., Order Inquiry, Collaboration" />
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" name="message" rows="7" placeholder="Write your message here..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary">Send Message</button>
+            </form>
+
+            <div class="contact-details fade-in">
+                <h3 class="contact-details-heading">Or Reach Us Directly:</h3>
+                <p>📧 Email Us: <a href="mailto:wearejeanettics@gmail.com">wearejeanettics@gmail.com</a></p>
+                <p>📞 Phone: <a href="tel:+254799081954">+254 799 081 954</a></p>
+                <p>📍 Location: Nairobi, Kenya</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon" aria-label="Instagram"><img src="assets/icons/instagram.svg" alt="Instagram"></a>
+                    <a href="#" class="social-icon" aria-label="Facebook"><img src="assets/icons/facebook.svg" alt="Facebook"></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Jeanettics. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Reusing the header scroll effect from your About page
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('.main-header');
+                if (window.scrollY > 50) {
+                    header.style.background = 'rgba(255, 255, 255, 0.98)';
+                    header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.15)';
+                } else {
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                    header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                }
+            });
+
+            // Placeholder for cart count update - ensure this logic is also in common.js if used globally
+            function updateCartCount() {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const cartCountElement = document.getElementById('cart-count');
+                if (cartCountElement) {
+                    cartCountElement.textContent = cart.length;
+                }
+            }
+            updateCartCount();
+
+            // Basic form submission handling (client-side only for now)
+            document.querySelector('.contact-form').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    subject: document.getElementById('subject').value,
+                    message: document.getElementById('message').value
+                };
+
+                console.log('Form Data Submitted:', formData);
+                alert('Thank you for your message! We will get back to you shortly.');
+
+                this.reset(); // Clear the form
+            });
+
+            // Scroll animations (Intersection Observer) - Reusing from About page
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Apply fade-in animation to relevant elements on the contact page
+            document.querySelectorAll('.contact-section .section-heading, .contact-intro, .contact-form, .contact-details').forEach(el => {
+                el.classList.add('fade-in'); // Add fade-in class
+                observer.observe(el);
+            });
+        });
+    </script>
+    <script src="Scripts/productsData.js"></script>
+    <script src="Scripts/common.js"></script>
+</body>
+</html>

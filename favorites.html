@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Favorites - Jeanettics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Glacial+Indifference:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Root Variables */
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #e74c3c;
+      --accent-color: #f39c12;
+      --text-color: #333;
+      --light-text: #666;
+      --background-color: #fff;
+      --light-bg: #f8f9fa;
+      --border-color: #e9ecef;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Spartan', sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background: var(--background-color);
+      overflow-x: hidden;
+    }
+
+    /* Header Styles */
+    .main-header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .main-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      position: relative;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--secondary-color);
+      background: rgba(231, 76, 60, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .cart-count, .like-count {
+      background: var(--gradient-secondary);
+      color: white;
+      border-radius: 50%;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.8rem;
+      margin-left: 0.5rem;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .secondary-nav {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 0.5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: center;
+    }
+
+    .secondary-nav .nav-links {
+      gap: 1.5rem;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-btn {
+      background: none;
+      border: none;
+      font-family: 'Spartan', sans-serif;
+      font-size: 1rem;
+      color: var(--text-color);
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dropdown-btn:hover {
+      color: var(--secondary-color);
+      background: rgba(231, 76, 60, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      border-radius: 10px;
+      padding: 0.5rem 0;
+      margin-top: 0.5rem;
+      list-style: none;
+    }
+
+    .dropdown-menu.show {
+      display: block;
+    }
+
+    .dropdown-menu li a {
+      color: var(--text-color);
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+      transition: all 0.2s ease;
+      font-weight: 400;
+    }
+
+    .dropdown-menu li a:hover {
+      background-color: var(--light-bg);
+      color: var(--primary-color);
+    }
+
+    /* Main Content */
+    .cart-main {
+      margin-top: 150px; /* Adjust based on combined header height */
+      min-height: calc(100vh - 200px); /* Adjust for header and footer */
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: var(--primary-color);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+      padding: 2rem 0;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .product-image {
+      transform: scale(1.05);
+    }
+
+    .product-info {
+      padding: 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-info h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    .product-info p {
+      font-size: 1rem;
+      color: var(--light-text);
+      margin-bottom: 1rem;
+    }
+
+    .product-price {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      margin-top: auto; /* Pushes price to the bottom */
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+    }
+
+    .add-to-cart-btn, .like-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-decoration: none; /* For like-btn if it's a link */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .add-to-cart-btn:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .like-btn {
+      background: var(--light-bg);
+      color: var(--text-color);
+      padding: 0.7rem 1.2rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .like-btn.active {
+      background: var(--gradient-secondary);
+      color: white;
+      border-color: var(--secondary-color);
+    }
+
+    .like-btn:hover {
+      background: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+
+    .empty-message {
+      text-align: center;
+      font-size: 1.3rem;
+      color: var(--light-text);
+      padding: 3rem 0;
+    }
+
+    .empty-message a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .empty-message a:hover {
+      color: var(--secondary-color);
+    }
+
+    /* Footer */
+    .main-footer {
+      background: var(--primary-color);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .main-nav {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .secondary-nav {
+        padding: 0.5rem 1rem;
+      }
+
+      .secondary-nav .nav-links {
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .cart-main {
+        margin-top: 130px; /* Adjust for smaller header */
+        padding: 2rem 1rem;
+      }
+
+      .section-heading {
+        font-size: 2.5rem;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    /* Additional Utility Classes */
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <nav class="main-nav">
+      <h1 class="logo">Jeanettics</h1>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="cart.html">Cart <span id="cart-count" class="cart-count">0</span></a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li id="logout-list-item" class="hidden"><a href="#" id="logout-btn">Logout</a></li>
+      </ul>
+    </nav>
+    <div class="secondary-nav">
+      <ul class="nav-links">
+        <li class="dropdown">
+          <button id="shopToggle" class="dropdown-btn">Shop By Category ▾</button>
+          <ul class="dropdown-menu" id="shopMenu">
+            <li><a href="shop.html#tops">Tops</a></li>
+            <li><a href="shop.html#skirts">Skirts</a></li>
+            <li><a href="shop.html#dresses">Dresses</a></li>
+            <li><a href="shop.html#trousers">Trousers</a></li>
+            <li><a href="shop.html#bags">Bags</a></li>
+            <li><a href="shop.html#belts">Belts</a></li>
+            <li><a href="shop.html#all-products">All Items</a></li>
+          </ul>
+        </li>
+        <li><a href="favorites.html" class="active">Favorites <span id="like-count" class="like-count">0</span></a></li>
+        <li><a href="stylemagazine.html">Jeanettics Magazine</a></li>
+        <li><a href="jeanettics101.html">Jeanettics 101</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="cart-main content">
+    <section class="cart-section">
+      <h2 class="section-heading">Your Favorites</h2>
+      <div id="favorites-grid" class="product-grid">
+        <p id="empty-favorites-message" class="empty-message" style="display: none;">
+          You haven't added any favorites yet. <a href="shop.html">Browse products!</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <p>&copy; 2025 Jeanettics. All rights reserved. | Sustainable Fashion for a Better Tomorrow</p>
+  </footer>
+
+  <script src="Scripts/productsData.js"></script>
+  <script src="Scripts/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Function to update cart count display
+      function updateCartCountDisplay() {
+        const cartCount = JSON.parse(localStorage.getItem('cartItems') || '[]').length;
+        const cartCountElement = document.getElementById('cart-count');
+        if (cartCountElement) {
+          cartCountElement.textContent = cartCount;
+          // Add animation when count changes
+          cartCountElement.style.transform = 'scale(1.2)';
+          setTimeout(() => {
+            cartCountElement.style.transform = 'scale(1)';
+          }, 200);
+        }
+      }
+
+      // Function to update like count display
+      function updateLikeCountDisplay() {
+        const likeCount = JSON.parse(localStorage.getItem('favorites') || '[]').length;
+        const likeCountElement = document.getElementById('like-count');
+        if (likeCountElement) {
+          likeCountElement.textContent = likeCount;
+          // Add animation when count changes
+          likeCountElement.style.transform = 'scale(1.2)';
+          setTimeout(() => {
+            likeCountElement.style.transform = 'scale(1)';
+          }, 200);
+        }
+      }
+
+      // Update counts on page load
+      updateCartCountDisplay();
+      updateLikeCountDisplay();
+
+      // Logout related elements
+      const logoutListItem = document.getElementById('logout-list-item');
+      const logoutBtn = document.getElementById('logout-btn');
+
+      // Function to check login status and update UI
+      function checkLoginStatus() {
+        const token = localStorage.getItem('jwtToken');
+        if (token) {
+          logoutListItem.classList.remove('hidden');
+        } else {
+          logoutListItem.classList.add('hidden');
+        }
+      }
+
+      // Logout functionality
+      logoutBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('jwtToken');
+        sessionStorage.removeItem('currentUserName');
+        sessionStorage.removeItem('currentUserEmail');
+        localStorage.removeItem('personalDeliveryAddress');
+        localStorage.removeItem('pickupMtaaniAddress');
+        localStorage.removeItem('ecardState');
+        localStorage.removeItem('ecardOffersConfig');
+        localStorage.removeItem('jeanettics_active_ecard_discount');
+        checkLoginStatus(); // Update UI after logout
+        alert('You have been successfully logged out.');
+        window.location.href = 'index.html'; // Redirect to home page after logout
+      });
+
+      // Initial check of login status
+      checkLoginStatus();
+
+      // Smooth scrolling for navigation links (already present from common.js if external, handled here for internal)
+      document.querySelectorAll('.main-nav a[href^="."], .secondary-nav a[href^="."]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          if (this.getAttribute('href').startsWith('#')) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const target = document.getElementById(targetId);
+            if (target) {
+              target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }
+          }
+        });
+      });
+
+      // Header scroll effect
+      window.addEventListener('scroll', () => {
+        const header = document.querySelector('.main-header');
+        if (window.scrollY > 50) {
+          header.style.background = 'rgba(255, 255, 255, 0.98)';
+          header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.15)';
+        } else {
+          header.style.background = 'rgba(255, 255, 255, 0.95)';
+          header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+        }
+      });
+
+      const favoritesGrid = document.getElementById('favorites-grid');
+      const emptyFavoritesMessage = document.getElementById('empty-favorites-message');
+
+      function createProductCard(product) {
+        // This function would typically be in productsData.js or common.js
+        // For demonstration, I'm including a basic version here.
+        const isFavorite = (JSON.parse(localStorage.getItem('favorites')) || []).some(fav => fav.id === product.id);
+        const likeButtonClass = isFavorite ? 'like-btn active' : 'like-btn';
+
+        return `
+          <div class="product-card">
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <div class="product-info">
+              <h3>${product.name}</h3>
+              <p>${product.description}</p>
+              <p class="product-price">KSh ${product.price.toFixed(2)}</p>
+              <div class="card-actions">
+                <button class="add-to-cart-btn" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Add to Cart</button>
+                <button class="${likeButtonClass}" data-id="${product.id}" data-name="${product.name}">❤️</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderFavorites() {
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        favoritesGrid.innerHTML = '';
+
+        if (favorites.length === 0) {
+          emptyFavoritesMessage.style.display = 'block';
+        } else {
+          emptyFavoritesMessage.style.display = 'none';
+          favorites.forEach(item => {
+            const productCardHtml = createProductCard(item);
+            favoritesGrid.insertAdjacentHTML('beforeend', productCardHtml);
+          });
+        }
+
+        updateLikeCountDisplay();
+      }
+
+      favoritesGrid.addEventListener('click', function(event) {
+        const target = event.target;
+        if (target.classList.contains('like-btn')) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          const productId = target.dataset.id;
+          let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+          const existingFavIndex = favorites.findIndex(fav => fav.id === productId);
+
+          if (existingFavIndex > -1) {
+            favorites.splice(existingFavIndex, 1);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            alert(`"${target.dataset.name}" removed from favorites.`);
+            renderFavorites();
+          } else {
+            // This case should ideally not happen on the favorites page for 'remove' action,
+            // but for completeness if this function is reused elsewhere.
+            const product = allProducts.find(p => p.id === productId); // assuming allProducts is available from productsData.js
+            if (product) {
+              favorites.push(product);
+              localStorage.setItem('favorites', JSON.stringify(favorites));
+              alert(`"${product.name}" added to favorites.`);
+              renderFavorites();
+            }
+          }
+        } else if (target.classList.contains('add-to-cart-btn')) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          const productId = target.dataset.id;
+          const productName = target.dataset.name;
+          const productPrice = parseFloat(target.dataset.price);
+
+          let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+          const existingItemIndex = cartItems.findIndex(item => item.id === productId);
+
+          if (existingItemIndex > -1) {
+            cartItems[existingItemIndex].quantity += 1;
+            alert(`Added another "${productName}" to your cart.`);
+          } else {
+            cartItems.push({ id: productId, name: productName, price: productPrice, quantity: 1 });
+            alert(`"${productName}" added to your cart.`);
+          }
+          localStorage.setItem('cartItems', JSON.stringify(cartItems));
+          updateCartCountDisplay();
+        }
+      });
+
+      // Shop dropdown toggle
+      const shopToggle = document.getElementById('shopToggle');
+      const shopMenu = document.getElementById('shopMenu');
+
+      if (shopToggle && shopMenu) {
+        shopToggle.addEventListener('click', () => {
+          shopMenu.classList.toggle('show');
+        });
+
+        window.addEventListener('click', (event) => {
+          if (!event.target.matches('.dropdown-btn') && !event.target.closest('.dropdown-menu')) {
+            if (shopMenu.classList.contains('show')) {
+              shopMenu.classList.remove('show');
+            }
+          }
+        });
+      }
+
+      renderFavorites();
+    });
+  </script>
+</body>
+</html>

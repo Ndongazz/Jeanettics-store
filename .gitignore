@@ -1,0 +1,12 @@
+# Ignore common OS files
+.DS_Store
+Thumbs.db
+
+# Ignore VS Code settings (optional, if you don't want to share workspace settings)
+.vscode/
+
+# Ignore node_modules if you ever add a build step or depend on npm
+node_modules/
+
+# Ignore local environment variables
+.env

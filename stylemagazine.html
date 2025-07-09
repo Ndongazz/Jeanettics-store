@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Jeanettics Magazine - Style & Inspiration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Glacial+Indifference:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Root Variables - Adopted from Jeanettics 101 */
+        :root {
+            --primary-color: #2c3e50; /* Dark blue/grey */
+            --secondary-color: #e74c3c; /* Reddish orange */
+            --accent-color: #f39c12; /* Amber */
+            --text-color: #333;
+            --light-text: #666;
+            --background-color: #fff;
+            --light-bg: #f8f9fa;
+            --border-color: #e9ecef;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Blue/purple gradient */
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); /* Pink/red gradient */
+            --header-height: 120px; /* Approximate height of main and secondary nav combined */
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Glacial Indifference', sans-serif; /* Kept for magazine content */
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--background-color);
+            overflow-x: hidden;
+            padding-top: var(--header-height); /* To prevent content from being hidden under fixed header */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Header Styles - Adopted from Jeanettics 101 */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-primary); /* Uses gradient from Jeanettics 101 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1em;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary-color); /* Uses secondary color from Jeanettics 101 */
+            background: rgba(231, 76, 60, 0.1); /* Based on secondary color */
+            transform: translateY(-2px);
+        }
+
+        .cart-count, .like-count {
+            background: var(--gradient-secondary); /* Uses gradient from Jeanettics 101 */
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            animation: pulse 2s infinite;
+            display: inline-block;
+            min-width: 25px;
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Secondary Navigation - Adopted from Jeanettics 101 */
+        .secondary-nav {
+            background: var(--primary-color);
+            padding: 0.8rem 2rem;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 0; /* Remove original margin-top */
+            border-top: none; /* Remove original border-top */
+            padding-top: 0.8rem; /* Consistent padding */
+            justify-content: center;
+        }
+
+        .secondary-nav .nav-links {
+            justify-content: center;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .secondary-nav .nav-links a {
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 5px;
+        }
+
+        .secondary-nav .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--accent-color);
+        }
+
+        /* Dropdown specific styles - Adopted from Jeanettics 101 */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-family: 'Cormorant Garamond', serif; /* Keep original font */
+            font-size: 1.1em; /* Keep original font size */
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .dropdown-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--accent-color);
+        }
+
+        .dropdown-menu {
+            list-style: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 10;
+            padding: 0.5rem 0;
+            margin-top: 10px; /* Space between button and menu */
+        }
+
+        .dropdown-menu.show-menu { /* Added class for JS control */
+            opacity: 1;
+            visibility: visible;
+            margin-top: 5px;
+        }
+
+        .dropdown-menu li a {
+            color: var(--text-color);
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            font-size: 1em;
+            font-family: 'Glacial Indifference', sans-serif;
+            white-space: nowrap;
+            border-radius: 0;
+        }
+
+        .dropdown-menu li a:hover {
+            background: var(--light-bg);
+            color: var(--accent-color);
+        }
+
+        /* Magazine Page Specific Styles */
+        .magazine-main {
+            padding-top: 0; /* Adjusted due to fixed header padding-top on body */
+            padding-bottom: 60px;
+        }
+
+        .magazine-hero {
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1516762689617-e1cd827d0932?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover; /* New background from J101 */
+            color: white; /* Text color for hero */
+            padding: 6rem 2rem; /* Increased padding */
+            margin-bottom: 3rem; /* Increased margin */
+            border-bottom-left-radius: 20px; /* Rounded corners */
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .magazine-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem; /* Larger font size */
+            color: white; /* Changed to white for dark background */
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Text shadow for readability */
+            animation: slideInUp 1s ease-out forwards;
+        }
+
+        .magazine-hero p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem; /* Larger font size */
+            color: rgba(255, 255, 255, 0.9); /* Lighter white for contrast */
+            max-width: 800px; /* Wider max-width */
+            margin: 0 auto;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            animation: slideInUp 1.2s ease-out forwards;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em; /* Slightly larger */
+            color: var(--primary-color); /* Uses primary color */
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+            width: 100px; /* Wider underline */
+            height: 4px; /* Thicker underline */
+            background-color: var(--accent-color); /* Uses accent color */
+            border-radius: 2px;
+        }
+
+        .magazine-articles-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem; /* Increased gap */
+            margin-bottom: 3rem; /* Margin for content before footer */
+        }
+
+        .article-card {
+            background-color: var(--background-color); /* Uses background color variable */
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); /* Stronger shadow */
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            animation: cardPopIn 0.8s ease-out forwards; /* Card pop-in animation */
+            opacity: 0; /* Start hidden for animation */
+        }
+
+        /* Delay for sequential animation */
+        .article-card:nth-child(1) { animation-delay: 0.1s; }
+        .article-card:nth-child(2) { animation-delay: 0.2s; }
+        .article-card:nth-child(3) { animation-delay: 0.3s; }
+        .article-card:nth-child(4) { animation-delay: 0.4s; }
+        .article-card:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes cardPopIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .article-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Stronger hover shadow */
+        }
+
+        .article-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid var(--border-color); /* Uses border color variable */
+        }
+
+        .article-content {
+            padding: 1.5rem; /* Increased padding */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; /* Larger title */
+            color: var(--primary-color); /* Uses primary color */
+            margin-top: 0;
+            margin-bottom: 1rem; /* Adjusted margin */
+            line-height: 1.3;
+        }
+
+        .article-snippet {
+            font-family: 'Glacial Indifference', sans-serif;
+            font-size: 1.05rem; /* Slightly larger snippet font */
+            color: var(--light-text); /* Uses light text color */
+            margin-bottom: 1.2rem; /* Adjusted margin */
+            flex-grow: 1;
+        }
+
+        .read-more-btn {
+            display: inline-block;
+            background-color: var(--secondary-color); /* Uses secondary color */
+            color: white;
+            padding: 10px 25px; /* More padding */
+            border-radius: 8px; /* More rounded corners */
+            text-decoration: none;
+            font-weight: 600;
+            font-family: 'Spartan', sans-serif;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            align-self: flex-start;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .read-more-btn:hover {
+            background-color: #c0392b; /* Darker shade of secondary color */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Footer Styles - Adopted from Jeanettics 101 */
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: auto;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.95em;
+        }
+
+        /* Responsive Adjustments - Merged and adapted */
+        @media (max-width: 992px) {
+            .magazine-articles-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 2rem; /* Adjusted gap */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                flex-direction: column;
+                gap: 15px;
+                padding: 0.8rem 1.5rem; /* Adjusted padding */
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .secondary-nav .nav-links {
+                gap: 10px;
+                padding: 0.5rem 1rem; /* Adjusted padding */
+            }
+
+            .magazine-hero {
+                padding: 4rem 1.5rem; /* Adjusted padding */
+            }
+
+            .magazine-hero h1 {
+                font-size: 2.8em;
+            }
+
+            .magazine-hero p {
+                font-size: 1.2em;
+            }
+
+            .section-heading {
+                font-size: 2.2em; /* Adjusted font size */
+            }
+
+            .article-content h3 {
+                font-size: 1.8em; /* Adjusted font size */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.8em;
+            }
+
+            .nav-links a {
+                font-size: 1em;
+            }
+
+            .magazine-hero {
+                padding: 3rem 1rem; /* Adjusted padding */
+            }
+
+            .magazine-hero h1 {
+                font-size: 2.2em;
+            }
+
+            .magazine-hero p {
+                font-size: 1em;
+            }
+
+            .section-heading {
+                font-size: 1.8em;
+            }
+
+            .article-card {
+                margin: 0 auto;
+                max-width: 350px;
+            }
+
+            .article-content h3 {
+                font-size: 1.5em;
+                margin-bottom: 0.8rem;
+            }
+
+            .article-snippet {
+                font-size: 0.95rem;
+                margin-bottom: 1rem;
+            }
+
+            .read-more-btn {
+                padding: 8px 18px; /* Smaller button padding */
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <h1 class="logo">Jeanettics</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart <span id="cart-count" class="cart-count">0</span></a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+
+        <div class="secondary-nav">
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <button id="shopToggle" class="dropdown-btn">Shop Now ▾</button>
+                    <ul class="dropdown-menu" id="shopMenu">
+                        <li><a href="tops.html">Tops</a></li>
+                        <li><a href="skirts.html">Skirts</a></li>
+                        <li><a href="dresses.html">Dresses</a></li>
+                        <li><a href="trousers.html">Trousers</a></li>
+                        <li><a href="bags.html">Bags</a></li>
+                        <li><a href="belts.html">Belts</a></li>
+                        <li><a href="shop.html#all-products">All Items</a></li>
+                    </ul>
+                </li>
+                <li><a href="favorites.html">Favorites <span id="like-count" class="like-count">0</span></a></li>
+                <li><a href="stylemagazine.html" class="active">Jeanettics Magazine</a></li>
+                <li><a href="jeanettics101.html">Jeanettics 101</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="magazine-main content">
+        <section class="magazine-hero">
+            <h1>Jeanettics Magazine</h1>
+            <p>Your ultimate guide to sustainable style, thrifting tips, and timeless fashion inspiration.</p>
+        </section>
+
+        <section class="articles-section">
+            <h2 class="section-heading">Latest Articles</h2>
+            <div class="magazine-articles-container">
+                <div class="article-card">
+                    <img src="https://images.unsplash.com/photo-1520023476495-2c815243b81d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Thrifting Tips" onerror="this.onerror=null;this.src='https://placehold.co/600x400/F8F8F8/333?text=Thrift+Tips';" />
+                    <div class="article-content">
+                        <h3>Mastering the Art of Thrifting</h3>
+                        <p class="article-snippet">Unlock the secrets to finding hidden gems in second-hand stores. Learn what to look for, how to spot quality, and make the most of your thrifting adventures...</p>
+                        <a href="#" class="read-more-btn" onclick="alert('This would lead to the full article page!')">Read More</a>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Capsule Wardrobe" onerror="this.onerror=null;this.src='https://placehold.co/600x400/F8F8F8/333?text=Capsule+Wardrobe';" />
+                    <div class="article-content">
+                        <h3>Building Your Sustainable Capsule Wardrobe</h3>
+                        <p class="article-snippet">Discover how to create a versatile and eco-friendly wardrobe with fewer, higher-quality pieces. Simplify your style and reduce your fashion footprint...</p>
+                        <a href="#" class="read-more-btn" onclick="alert('This would lead to the full article page!')">Read More</a>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <img src="https://images.unsplash.com/photo-1621609764049-cf6d3570225d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Vintage Fashion Trends" onerror="this.onerror=null;this.src='https://placehold.co/600x400/F8F8F8/333?text=Vintage+Fashion';" />
+                    <div class="article-content">
+                        <h3>Bringing Vintage Charm into Modern Outfits</h3>
+                        <p class="article-snippet">Explore how to seamlessly integrate unique vintage finds into your contemporary wardrobe. From timeless accessories to statement pieces, elevate your look...</p>
+                        <a href="#" class="read-more-btn" onclick="alert('This would lead to the full article page!')">Read More</a>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <img src="https://images.unsplash.com/photo-1520023476495-2c815243b81d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Fabric Care Guide" onerror="this.onerror=null;this.src='https://placehold.co/600x400/F8F8F8/333?text=Fabric+Care';" />
+                    <div class="article-content">
+                        <h3>Essential Fabric Care: Make Your Clothes Last</h3>
+                        <p class="article-snippet">Extend the life of your beloved garments with our comprehensive fabric care guide. Learn washing, drying, and storage tips for different materials...</p>
+                        <a href="#" class="read-more-btn" onclick="alert('This would lead to the full article page!')">Read More</a>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Color Theory in Fashion" onerror="this.onerror=null;this.src='https://placehold.co/600x400/F8F8F8/333?text=Color+Theory';" />
+                    <div class="article-content">
+                        <h3>The Power of Color: A Fashion Guide</h3>
+                        <p class="article-snippet">Understand how to use color theory to enhance your personal style. Discover flattering palettes, how to mix and match, and create impactful outfits...</p>
+                        <a href="#" class="read-more-btn" onclick="alert('This would lead to the full article page!')">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Jeanettics. All rights reserved. | Sustainable Fashion for a Better Tomorrow</p>
+    </footer>
+
+    <script src="Scripts/common.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to update cart count display
+            function updateCartCountDisplay() {
+                const cartCount = JSON.parse(localStorage.getItem('cartItems') || '[]').length;
+                const cartCountElement = document.getElementById('cart-count');
+                if (cartCountElement) {
+                    cartCountElement.textContent = cartCount;
+                    cartCountElement.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        cartCountElement.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            }
+
+            // Function to update favorite count display
+            function updateLikeCountDisplay() {
+                const likedItems = JSON.parse(localStorage.getItem('likedItems') || '[]').length;
+                const likeCountElement = document.getElementById('like-count');
+                if (likeCountElement) {
+                    likeCountElement.textContent = likedItems;
+                    likeCountElement.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        likeCountElement.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            }
+
+            // Initialize counts on page load
+            updateCartCountDisplay();
+            updateLikeCountDisplay();
+
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('header');
+                if (window.scrollY > 50) {
+                    header.style.background = 'rgba(255, 255, 255, 0.98)';
+                    header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.15)';
+                } else {
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                    header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                }
+            });
+
+            // Handle shop dropdown toggle
+            const toggleBtn = document.getElementById("shopToggle");
+            const menu = document.getElementById("shopMenu");
+
+            toggleBtn.addEventListener("click", function(e) {
+                e.stopPropagation(); // Prevent click from bubbling up
+                menu.classList.toggle("show-menu");
+            });
+
+            // Close the menu when clicking outside
+            document.addEventListener("click", function(e) {
+                if (!menu.contains(e.target) && !toggleBtn.contains(e.target)) {
+                    menu.classList.remove("show-menu");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
